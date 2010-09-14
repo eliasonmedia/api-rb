@@ -12,7 +12,7 @@ module OI
     end
 
   protected
-    def query_result(data)
+    def self.query_result(data)
       rv = {:total => data['total'], :locations => []}
       rv[:locations] = data['locations'].map {|l| new(l)}
       rv
