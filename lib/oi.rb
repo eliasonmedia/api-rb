@@ -2,6 +2,8 @@ require 'active_support/core_ext/module/attribute_accessors'
 require 'logger'
 
 require 'oi/base'
+require 'oi/category'
+require 'oi/tag'
 require 'oi/location'
 require 'oi/story'
 
