@@ -12,7 +12,8 @@ module OI
     end
 
     def self.for_nabe(state, city, nabe)
-      query_result(call_remote("/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/nabes/#{URI.escape(nabe)}/stories"))
+      query_result(call_remote(
+        "/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/nabes/#{URI.escape(nabe)}/stories"))
     end
 
     def self.for_zip_code(zip)

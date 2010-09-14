@@ -104,50 +104,38 @@ module OI
     end
   end
 
-  class States < CLI
-    namespace 'oi:states'
+  class Stories < CLI
+    namespace 'oi:stories'
 
-    desc 'stories STATE', 'Find stories for a state'
-    def stories(state)
+    desc 'state STATE', 'Find stories for a state'
+    def state(state)
       run do
         show_stories(::OI::Story.for_state(state))
       end
     rescue ::OI::NotFoundException => e
       error("State not found")
     end
-  end
 
-  class Cities < CLI
-    namespace 'oi:cities'
-
-    desc 'stories STATE CITY', 'Find stories for a city'
-    def stories(state, city)
+    desc 'city STATE CITY', 'Find stories for a city'
+    def city(state, city)
       run do
         show_stories(::OI::Story.for_city(state, city))
       end
     rescue ::OI::NotFoundException => e
       error("City not found")
     end
-  end
 
-  class Nabes < CLI
-    namespace 'oi:nabes'
-
-    desc 'stories STATE CITY NABE', 'Find stories for a neighborhood'
-    def stories(state, city, nabe)
+    desc 'nabe STATE CITY NABE', 'Find stories for a neighborhood'
+    def nabe(state, city, nabe)
       run do
         show_stories(::OI::Story.for_nabe(state, city, nabe))
       end
     rescue ::OI::NotFoundException => e
       error("Neighborhood not found")
     end
-  end
 
-  class Zips < CLI
-    namespace 'oi:zips'
-
-    desc 'stories ZIPS', 'Find stories for a zip code'
-    def stories(zip)
+    desc 'zip ZIP', 'Find stories for a zip code'
+    def zip(zip)
       run do
         show_stories(::OI::Story.for_zip_code(zip))
       end
