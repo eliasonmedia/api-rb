@@ -1,5 +1,10 @@
 source 'http://rubygems.org'
-gem 'thor'
+
+gem 'activesupport', '3.0.0'
 gem 'httparty'
-gem 'activesupport'
 gem 'json'
+
+group 'cli' do
+  gem 'text-reform'
+  gem 'thor'
+end

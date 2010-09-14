@@ -6,6 +6,8 @@ Bundler.setup
 $: << 'lib'
 
 require 'oi'
+require 'text/reform'
+require 'yaml'
 
 module OI
   class CLI < Thor
@@ -13,10 +15,16 @@ module OI
 
   protected
     def run(&block)
-      ::OI.logger.level = Logger::DEBUG
+      cfg = read_config
+#      ::OI.logger.level = Logger::DEBUG
+      ::OI.client = ::OI::Client.new(cfg['key'], cfg['secret'])
       begin
         yield
       end
+    end
+
+    def read_config
+      YAML.load_file(File.join('config', 'oi.yml'))
     end
 
     def warn(msg)
@@ -42,7 +50,23 @@ module OI
     desc 'named NAME', 'Find locations matching a name'
     def named(name)
       run do
-        say "Finding locations named #{name}"
+        data = ::OI::Location.named(name)
+        if data.empty?
+          warn("No matching locations found.")
+        else
+          names = data[:locations].map {|l| l.display_name}
+          uuids = data[:locations].map {|l| l.uuid}
+          r = Text::Reform.new
+          say(r.format(
+            "",
+            "Name                              UUID",
+            "======================================================================",
+            "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[  [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",
+            names, uuids,
+            "",
+            "Best #{data[:locations].size} of #{data[:total]} matching locations"
+          ))
+        end
       end
     end
   end
