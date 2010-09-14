@@ -15,16 +15,19 @@ module OI
 
   protected
     def run(&block)
-      cfg = read_config
-#      ::OI.logger.level = Logger::DEBUG
-      ::OI.client = ::OI::Client.new(cfg['key'], cfg['secret'])
+      configure
       begin
         yield
+      rescue Exception => e
+        error(e.message)
       end
     end
 
-    def read_config
-      YAML.load_file(File.join('config', 'oi.yml'))
+    def configure
+      cfg = YAML.load_file(File.join('config', 'oi.yml'))
+      ::OI.key = cfg['key']
+      ::OI.secret = cfg['secret']
+#      ::OI.logger.level = Logger::DEBUG
     end
 
     def warn(msg)
