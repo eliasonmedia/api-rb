@@ -1,7 +1,7 @@
 module OI
   class Location < Base
     api_attr :category, :city, :display_name, :lat, :lng, :state, :state_abbrev, :url, :url_name, :uuid
-    # XXX: denote that category is a model too
+    # XXX: denote that category is a Category
 
     def self.named(name)
       data = call_remote("/locations/named/#{name}")

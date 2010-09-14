@@ -3,6 +3,7 @@ require 'logger'
 
 require 'oi/base'
 require 'oi/location'
+require 'oi/story'
 
 module OI
   HOST = 'hyperlocal-api.outside.in'
@@ -17,4 +18,7 @@ module OI
 
   mattr_accessor :secret, :instance_writer => false
   @@secret = nil
+
+  class ForbiddenException < Exception; end
+  class NotFoundException < Exception; end
 end

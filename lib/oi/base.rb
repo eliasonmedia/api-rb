@@ -17,6 +17,8 @@ module OI
       url = sign_url(relative_url)
       OI.logger.debug("Requesting #{url}") if OI.logger
       response = HTTParty.get(url)
+      raise ForbiddenException if response.code == 403
+      raise NotFoundException if response.code == 404
       raise Exception, response.headers['x-mashery-error-code'] unless response.code < 300
       JSON[response.body]
     end
