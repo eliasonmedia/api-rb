@@ -33,7 +33,7 @@ module OI
       cfg = YAML.load_file(cfg_file)
       ::OI.key = cfg['key'] or error("You must specify your key in #{cfg_file}")
       ::OI.secret = cfg['secret'] or error("You must specify your secret in #{cfg_file}")
-#      ::OI.logger.level = Logger::DEBUG
+      ::OI.logger.level = Logger::DEBUG
     end
 
     def warn(msg)
@@ -114,6 +114,45 @@ module OI
       end
     rescue ::OI::NotFoundException => e
       error("State not found")
+    end
+  end
+
+  class Cities < CLI
+    namespace 'oi:cities'
+
+    desc 'stories STATE CITY', 'Find stories for a city'
+    def stories(state, city)
+      run do
+        show_stories(::OI::Story.for_city(state, city))
+      end
+    rescue ::OI::NotFoundException => e
+      error("City not found")
+    end
+  end
+
+  class Nabes < CLI
+    namespace 'oi:nabes'
+
+    desc 'stories STATE CITY NABE', 'Find stories for a neighborhood'
+    def stories(state, city, nabe)
+      run do
+        show_stories(::OI::Story.for_nabe(state, city, nabe))
+      end
+    rescue ::OI::NotFoundException => e
+      error("Neighborhood not found")
+    end
+  end
+
+  class Zips < CLI
+    namespace 'oi:zips'
+
+    desc 'stories ZIPS', 'Find stories for a zip code'
+    def stories(zip)
+      run do
+        show_stories(::OI::Story.for_zip_code(zip))
+      end
+    rescue ::OI::NotFoundException => e
+      error("Zip code not found")
     end
   end
 end
