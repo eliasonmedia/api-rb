@@ -19,6 +19,8 @@ module OI
   mattr_accessor :secret, :instance_writer => false
   @@secret = nil
 
-  class ForbiddenException < Exception; end
-  class NotFoundException < Exception; end
+  class ApiException < Exception; end
+  class ForbiddenException < ApiException; end
+  class NotFoundException < ApiException; end
+  class HttpException < Exception; end
 end

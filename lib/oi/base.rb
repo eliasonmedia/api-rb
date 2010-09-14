@@ -17,9 +17,16 @@ module OI
       url = sign_url(relative_url)
       OI.logger.debug("Requesting #{url}") if OI.logger
       response = HTTParty.get(url)
-      raise ForbiddenException if response.code == 403
-      raise NotFoundException if response.code == 404
-      raise Exception, response.headers['x-mashery-error-code'] unless response.code < 300
+      unless response.code < 300
+        raise ForbiddenException if response.code == 403
+        raise NotFoundException if response.code == 404
+        if response.headers.include?('x-mashery-error-code')
+          raise HttpException, response.headers['x-mashery-error-code']
+        else
+          data = JSON[response.body]
+          raise ApiException, (data.include?('error') ? data['error'] : 'unknown error')
+        end
+      end
       JSON[response.body]
     end
 

@@ -20,6 +20,10 @@ module OI
       query_result(call_remote("/zipcodes/#{URI.escape(zip)}/stories"))
     end
 
+    def self.for_uuids(uuids)
+      query_result(call_remote("/locations/#{uuids.map{|u| URI.escape(u)}.join(",")}/stories"))
+    end
+
   protected
     def self.query_result(data)
       rv = {:total => data['total'], :stories => []}

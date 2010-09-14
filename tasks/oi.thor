@@ -21,6 +21,8 @@ module OI
           yield
         rescue ::OI::ForbiddenException => e
           error("Access denied - doublecheck key and secret in #{cfg_file}")
+        rescue ::OI::ApiException => e
+          error("Invalid API request: #{e.message}")
         end
       end
     end
@@ -141,6 +143,15 @@ module OI
       end
     rescue ::OI::NotFoundException => e
       error("Zip code not found")
+    end
+
+    desc 'uuid UUID[,UUID[...]]', 'Find stories for one or more location UUIDs'
+    def uuid(uuids)
+      run do
+        show_stories(::OI::Story.for_uuids(uuids.split(',')))
+      end
+    rescue ::OI::NotFoundException => e
+      error("UUID not found")
     end
   end
 end
