@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Documentation by YARD 0.6.1</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><p>Ruby SDK for the <a href="http://developers.outside.in/">Outside.in API</a></p>
+
+<h2>Prerequisites</h2>
+
+<h3>Developer account</h3>
+
+<p>To make API requests, register for an account at <a href="http://developers.outside.in/">developers.outside.in</a> to receive a developer key and the shared secret you'll use with the key to sign requests.</p>
+
+<h3>Dependencies</h3>
+
+<p>Gem dependencies are managed with <a href="http://gembundler.com/">Bundler</a>. Install them like so:</p>
+
+<pre class="code">$ <span class='bundle identifier id'>bundle</span> <span class='install identifier id'>install</span>
+</pre>
+
+<h2>Usage</h2>
+
+<pre class="code"><span class='require identifier id'>require</span> <span class='string val'>'oi'</span>
+
+<span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='key identifier id'>key</span> <span class='assign token'>=</span> <span class='string val'>'faffledweomercraft'</span>
+<span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='secret identifier id'>secret</span> <span class='assign token'>=</span> <span class='string val'>'deadbeef'</span>
+<span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='logger identifier id'>logger</span><span class='dot token'>.</span><span class='level identifier id'>level</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='colon2 op'>::</span><span class='DEBUG constant id'>DEBUG</span> <span class='comment val'># defaults to WARN</span>
+
+<span class='comment val'># find locations by name</span>
+<span class='comment val'># returns a hash with keys:</span>
+<span class='comment val'>#  * total - the total number of matched stories</span>
+<span class='comment val'>#  * locations - the array of matched locations up to the specified limit (default 10)</span>
+<span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Location constant id'>Location</span><span class='dot token'>.</span><span class='named identifier id'>named</span><span class='lparen token'>(</span><span class='string val'>&quot;Brooklyn&quot;</span><span class='rparen token'>)</span>
+<span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;Total matches: #{data[:total]}&quot;</span>
+<span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:locations</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='loc identifier id'>loc</span><span class='bitor op'>|</span> <span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;  #{loc.display_name}&quot;</span><span class='rbrace token'>}</span>
+
+<span class='comment val'># displays:</span>
+<span class='comment val'># Total matches: 624</span>
+<span class='comment val'>#   Brooklyn, NY</span>
+<span class='comment val'>#   Brooklyn, IL</span>
+<span class='comment val'>#   Brooklyn, IN</span>
+<span class='comment val'># etc.</span>
+
+<span class='comment val'># all story finders return the same data structure, a hash with keys:</span>
+<span class='comment val'>#  * total - the total number of matched stories</span>
+<span class='comment val'>#  * stories - the array of matched stories up to the specified limit (default 10)</span>
+<span class='comment val'>#  * location - the identified location -OR-</span>
+<span class='comment val'>#  * locations - the identified locations (when finding stories for multiple location UUIDs)</span>
+
+<span class='comment val'># city, state and neighborhood names are case-insensitive.</span>
+<span class='comment val'># states can be identified by name or postal abbreviation.</span>
+
+<span class='comment val'># find stories for a zip code</span>
+<span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Story constant id'>Story</span><span class='dot token'>.</span><span class='for_zip_code identifier id'>for_zip_code</span><span class='lparen token'>(</span><span class='string val'>&quot;11211&quot;</span><span class='rparen token'>)</span>
+<span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;Total stories for #{data[:location].display_name}: #{data[:total]}&quot;</span>
+<span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:stories</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='story identifier id'>story</span><span class='bitor op'>|</span> <span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;  #{story.title} - #{story.feed_title}&quot;</span><span class='rbrace token'>}</span>
+
+<span class='comment val'># displays:</span>
+<span class='comment val'># Total stories for 11211: 438</span>
+<span class='comment val'>#   Fashionistas to Go Higher-End with 11K-Plus Feet at 550 Seventh - The New York Observer Real Estate</span>
+<span class='comment val'>#   Carlos C.'s Review of East River State Park - Brooklyn (3/5) on Yelp - Yelp Reviews New York</span>
+<span class='comment val'>#   What's going on Tuesday? - Brooklyn Vegan</span>
+<span class='comment val'># etc.</span>
+
+<span class='comment val'># find by state</span>
+<span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Story constant id'>Story</span><span class='dot token'>.</span><span class='for_state identifier id'>for_state</span><span class='lparen token'>(</span><span class='string val'>&quot;New York&quot;</span><span class='rparen token'>)</span>
+
+<span class='comment val'># find by city</span>
+<span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Story constant id'>Story</span><span class='dot token'>.</span><span class='for_city identifier id'>for_city</span><span class='lparen token'>(</span><span class='string val'>&quot;NY&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;New York&quot;</span><span class='rparen token'>)</span>
+
+<span class='comment val'># find by neighborhood</span>
+<span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Story constant id'>Story</span><span class='dot token'>.</span><span class='for_nabe identifier id'>for_nabe</span><span class='lparen token'>(</span><span class='string val'>&quot;ny&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;new york&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;williamsburg&quot;</span><span class='rparen token'>)</span>
+
+<span class='comment val'># find by location UUID</span>
+<span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Story constant id'>Story</span><span class='dot token'>.</span><span class='for_uuids identifier id'>for_uuids</span><span class='lparen token'>(</span><span class='lbrack token'>[</span>
+  <span class='string val'>&quot;a02aa3e4-2aaa-41d7-b9d7-45642eb1c557&quot;</span><span class='comma token'>,</span> <span class='comment val'># Brooklyn, NY</span>
+  <span class='string val'>&quot;98653b8d-fa8f-4d50-93b2-f3977a81f40c&quot;</span><span class='comma token'>,</span> <span class='comment val'># Brooklyn, Jacksonville, FL</span>
+<span class='rbrack token'>]</span><span class='rparen token'>)</span>
+</pre>
+
+<h2>CLI</h2>
+
+<p>A set of Thor tasks is provided so that you can call API methods from the command line (read more about Thor at <a href="http://github.com/wycats/thor">http://github.com/wycats/thor</a>).</p>
+
+<p>The following examples assume you have Thor installed system-wide. If it's local to your bundle, then replace <code>thor</code> with <code>bundle exec thor</code>.</p>
+
+<p>You can see all available OI tasks with this command:</p>
+
+<pre class="code">$ <span class='thor identifier id'>thor</span> <span class='list identifier id'>list</span> <span class='oi identifier id'>oi</span>
+</pre>
+
+<h2>Help</h2>
+
+<ul>
+<li>API docs: <a href="http://developers.outside.in/docs">http://developers.outside.in/docs</a></li>
+<li>Ruby SDK docs: <a href="http://rdoc.info/github/outsidein/api-rb/master/frames">http://rdoc.info/github/outsidein/api-rb/master/frames</a></li>
+<li>Post questions in the help forum: <a href="http://developers.outside.in/forum">http://developers.outside.in/forum</a></li>
+</ul>
+</div></div>
+    
+    <div id="footer">
+  Generated on Wed Sep 15 17:44:20 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

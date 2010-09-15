@@ -83,5 +83,6 @@ You can see all available OI tasks with this command:
 
 ## Help
 
-* Browse the API documentation: [http://developers.outside.in/docs](http://developers.outside.in/docs)
+* API docs: [http://developers.outside.in/docs](http://developers.outside.in/docs)
+* Ruby SDK docs: [http://rdoc.info/github/outsidein/api-rb/master/frames](http://rdoc.info/github/outsidein/api-rb/master/frames)
 * Post questions in the help forum: [http://developers.outside.in/forum](http://developers.outside.in/forum)

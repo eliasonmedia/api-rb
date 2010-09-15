@@ -39,10 +39,10 @@ module OI
       qs = []
       qs << "limit=#{options[:limit]}" if options.include?('limit')
       qs << "max_age=#{URI.escape(options[:'max-age'])}" if options.include?('max-age')
-      qs.concat(multi_params(:keyword, options))
-      qs.concat(multi_params(:vertical, options))
-      qs.concat(multi_params(:format, options))
-      qs.concat(multi_params(:'author-type', options))
+      qs.concat(filter_params(:keyword, options))
+      qs.concat(filter_params(:vertical, options))
+      qs.concat(filter_params(:format, options))
+      qs.concat(filter_params(:'author-type', options))
       qs.empty?? url : "#{url}?#{qs.join('&')}"
     end
 

@@ -1,37 +1,86 @@
-require 'active_support/core_ext/class/attribute_accessors'
 require 'httparty'
 require 'json'
 require 'md5'
 
 module OI
+  # The base class for API models.
+  #
+  # Models interact with the remote service through the low level {OI::Base#call_remote} method. Each model class
+  # defines its own high-level finder methods that encapsulate the remote service call. For example:
+  #
+  #  module OI
+  #    class Thing < Base
+  #      def self.by_name(name)
+  #        new(call_remote("/things/named/#{URI.escape(name)}"))
+  #      end
+  #    end
+  #  end
+  #
+  # Model attributes are declared using {OI::Base#api_attr}. Only attributes declared this way are recognized by the
+  # initializer when setting the model's initial state.
   class Base
-    cattr_accessor :api_attrs, :instance_writer => false
+    # The map of defined attributes for this model class. The keys are attribute symbols and the values are
+    # either nil (indicating that the attribute is of a primitive type) or instances of +Class+.
     @@api_attrs = {}
 
-    cattr_accessor :api_attr_classes, :instance_writer => false
-    @@api_attr_classes = {}
-
+    # Adds one or more defined attributes for this model class.
+    #
+    # If the first argument is a +Hash+, then its entries are added directly to the defined attributes map.
+    # Otherwise, each argument is taken to be the name of a primitive-typed attribute. In either case,
+    # {Module#attr_accessor} is called for each attribute.
     def self.api_attr(*names)
       if ! names.empty? && names.first.is_a?(Hash)
         names.first.each_pair do |name, clazz|
-          api_attrs[name] = clazz
-          attr_reader(name)
+          @@api_attrs[name.to_sym] = clazz
+          attr_accessor(name.to_sym)
         end
       else
         names.each do |name|
-          api_attrs[name] = nil
-          attr_reader(name)
+          @@api_attrs[name.to_sym] = nil
+          attr_accessor(name.to_sym)
         end
       end
     end
 
-    def self.multi_params(key, options)
+    # Returns a list of URL query parameters computed by examining +options+ for entries related to +name+.
+    #
+    # This method encapsulates the "include/exclude" pattern for query parameters that filter model queries. For
+    # example, stories queries take the +keyword+ and +no-keyword+ parameters to include or exclude stories
+    # containing the parameter values in their titles, summaries or tags.
+    #
+    # A parameter named +#{name}+ is added when the options hash contains that key. A parameter named
+    # +no-#{name}+ is added when the options hash contains that key or the key +wo-#{name}+ (the form used by
+    # the Thor tasks, which reserve the "no-" prefix for a different purpose).
+    #
+    # Example:
+    #
+    #   >> OI::Base.multi_params(:keyword, 'no-keyword' => ['crime'], 'keyword' => ['kittens', 'socks'])
+    #   => ["keyword=kittens", "keyword=socks", "no-keyword=crime"]
+    #
+    # @param [Symbol] name the base name of the query parameter
+    # @param [Hash<String, Array<String>>] options the options which are examined for query parameter names
+    # @return [Hash[String]]
+    def self.filter_params(name, options)
       params = []
-      params.concat(options[key].map {|s| "#{key}=#{URI.escape(s)}"}) if options.include?(key.to_s)
-      params.concat(options["wo-#{key}"].map {|s| "no-#{key}=#{URI.escape(s)}"}) if options.include?("wo-#{key}")
+      params.concat(options[name.to_s].map {|s| "#{name}=#{URI.escape(s)}"}) if options.include?(name.to_s)
+      ["wo-#{name}", "no-#{name}"].each do |key|
+        params.concat(options[key].map {|s| "no-#{name}=#{URI.escape(s)}"}) if options.include?(key)
+      end
       params
     end
 
+    # Calls the remote API service and returns the data encapsulated in the response.
+    #
+    # Uses {Base#sign_url} to compute the signed absolute URL of the API resource.
+    #
+    # @param [String] relative_url the URL path relative to the version-identifier path component of the base
+    #   service URL
+    # @return [Object] the returned data structure as defined by the API specification (as parsed from the JSON
+    #   envelope)
+    # @raise [OI::ForbiddenException] for a +403+ response
+    # @raise [OI::NotFoundException] for a +404+ response
+    # @raise [OI::ServiceException] for any error response that indicates a service fault of some type
+    # @raise [OI::ApiException] for any error response that indicates an invalid request or other client-side error
     def self.call_remote(relative_url)
       url = sign_url(relative_url)
       OI.logger.debug("Requesting #{url}") if OI.logger
@@ -40,7 +89,7 @@ module OI
         raise ForbiddenException if response.code == 403
         raise NotFoundException if response.code == 404
         if response.headers.include?('x-mashery-error-code')
-          raise HttpException, response.headers['x-mashery-error-code']
+          raise ServiceException, response.headers['x-mashery-error-code']
         else
           data = JSON[response.body]
           msg = []
@@ -57,6 +106,13 @@ module OI
       JSON[response.body]
     end
 
+    # Returns the signed, absolutized form of +url+. 
+    #
+    # If +url+ begins with +/+ then the base service URL is prepended to it. The +dev_key+ and +sig+ query parameters
+    # are appended to the query string.
+    #
+    # @param [String] url a URL to be signed and potentially absolutized
+    # @return [String] the signed absolute URL
     def self.sign_url(url)
       sig_params = "dev_key=#{OI.key}&sig=#{MD5.new(OI.key + OI.secret + Time.now.to_i.to_s).hexdigest}"
       signed = if url =~ /\?/
@@ -67,8 +123,16 @@ module OI
       signed =~ /^\// ? "http://#{HOST}/v#{VERSION}#{signed}" : signed
     end
 
+    # Returns a new instance.
+    #
+    # Each entry of +attrs+ whose key identifies a defined model attribute is used to set the value of that
+    # attribute. If the attribute's type is a +Class+, then an instance of that class is created with the raw
+    # value passed to its initializer. Otherwise, the raw value is used directly.
+    #
+    # @param [Hash<Symbol, Object>] attrs the data used to initialize the model's attributes
+    # @return [OI::Base]
     def initialize(attrs = {})
-      api_attrs.each_pair do |name, clazz|
+      @@api_attrs.each_pair do |name, clazz|
         str = name.to_s
         if attrs.include?(str)
           v = attrs[str]

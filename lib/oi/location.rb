@@ -17,7 +17,7 @@ module OI
       url = "#{url}/publications/#{options[:'publication-id']}" if options.include?('publication-id')
       qs = []
       qs << "limit=#{options[:limit]}" if options.include?('limit')
-      qs.concat(multi_params(:category, options))
+      qs.concat(filter_params(:category, options))
       qs.empty?? url : "#{url}?#{qs.join('&')}"
     end
 
