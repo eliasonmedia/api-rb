@@ -14,6 +14,7 @@ module OI
 
   protected
     def self.parameterize_url(url, options)
+      url = "#{url}/publications/#{options[:'publication-id']}" if options.include?('publication-id')
       qs = []
       qs << "limit=#{options[:limit]}" if options.include?('limit')
       qs.concat(multi_params(:category, options))

@@ -34,6 +34,8 @@ module OI
 
   protected
     def self.parameterize_url(url, options)
+      url = url.gsub(/\/stories$/, "/publications/#{options[:'publication-id']}/stories") if
+        options.include?('publication-id')
       qs = []
       qs << "limit=#{options[:limit]}" if options.include?('limit')
       qs << "max_age=#{URI.escape(options[:'max-age'])}" if options.include?('max-age')

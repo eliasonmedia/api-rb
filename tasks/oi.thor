@@ -99,7 +99,7 @@ module OI
     namespace 'oi:locations'
 
     desc 'named NAME', 'Find locations matching a name'
-    method_options :limit => :numeric, :category => :array, :'wo-category' => :array
+    method_options :limit => :numeric, :category => :array, :'wo-category' => :array, :'publication-id' => :numeric
     def named(name)
       run do
         show_locations(::OI::Location.named(name, options))
@@ -113,7 +113,7 @@ module OI
     def self.param_method_options
       method_options :limit => :numeric, :'max-age' => :string, :keyword => :array, :'wo-keyword' => :array,
         :vertical => :array, :'wo-vertical' => :array, :format => :array, :'wo-format' => :array,
-        :'author-type' => :array, :'wo-author-type' => :array
+        :'author-type' => :array, :'wo-author-type' => :array, :'publication-id' => :numeric
     end
 
     desc 'state STATE', 'Find stories for a state'
