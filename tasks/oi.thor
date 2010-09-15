@@ -99,9 +99,10 @@ module OI
     namespace 'oi:locations'
 
     desc 'named NAME', 'Find locations matching a name'
+    method_options :limit => :numeric, :category => :array, :'wo-category' => :array
     def named(name)
       run do
-        show_locations(::OI::Location.named(name))
+        show_locations(::OI::Location.named(name, options))
       end
     end
   end

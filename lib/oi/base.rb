@@ -25,6 +25,13 @@ module OI
       end
     end
 
+    def self.multi_params(key, options)
+      params = []
+      params.concat(options[key].map {|s| "#{key}=#{URI.escape(s)}"}) if options.include?(key.to_s)
+      params.concat(options["wo-#{key}"].map {|s| "no-#{key}=#{URI.escape(s)}"}) if options.include?("wo-#{key}")
+      params
+    end
+
     def self.call_remote(relative_url)
       url = sign_url(relative_url)
       OI.logger.debug("Requesting #{url}") if OI.logger

@@ -44,13 +44,6 @@ module OI
       qs.empty?? url : "#{url}?#{qs.join('&')}"
     end
 
-    def self.multi_params(key, options)
-      params = []
-      params.concat(options[key].map {|s| "#{key}=#{URI.escape(s)}"}) if options.include?(key.to_s)
-      params.concat(options["wo-#{key}"].map {|s| "no-#{key}=#{URI.escape(s)}"}) if options.include?("wo-#{key}")
-      params
-    end
-
     def self.query_result(data)
       rv = {:total => data['total'], :stories => []}
       if data.include?('locations')
