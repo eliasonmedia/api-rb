@@ -36,7 +36,15 @@ module OI
           raise HttpException, response.headers['x-mashery-error-code']
         else
           data = JSON[response.body]
-          raise ApiException, (data.include?('error') ? data['error'] : 'unknown error')
+          msg = []
+          if data.include?('error')
+            msg << data['error']
+          elsif data.include?('errors')
+            msg.concat(data['errors'])
+          else
+            msg << 'unknown error'
+          end
+          raise ApiException, msg.join('; ')
         end
       end
       JSON[response.body]

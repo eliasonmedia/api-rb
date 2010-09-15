@@ -109,49 +109,61 @@ module OI
   class Stories < CLI
     namespace 'oi:stories'
 
+    def self.param_method_options
+      method_options :limit => :numeric, :'max-age' => :string, :keyword => :array, :'wo-keyword' => :array,
+        :vertical => :array, :'wo-vertical' => :array, :format => :array, :'wo-format' => :array,
+        :'author-type' => :array, :'wo-author-type' => :array
+    end
+
     desc 'state STATE', 'Find stories for a state'
+    param_method_options
     def state(state)
       run do
-        show_stories(::OI::Story.for_state(state))
+        show_stories(::OI::Story.for_state(state, options))
       end
     rescue ::OI::NotFoundException => e
       error("State not found")
     end
 
     desc 'city STATE CITY', 'Find stories for a city'
+    param_method_options
     def city(state, city)
       run do
-        show_stories(::OI::Story.for_city(state, city))
+        show_stories(::OI::Story.for_city(state, city, options))
       end
     rescue ::OI::NotFoundException => e
       error("City not found")
     end
 
     desc 'nabe STATE CITY NABE', 'Find stories for a neighborhood'
+    param_method_options
     def nabe(state, city, nabe)
       run do
-        show_stories(::OI::Story.for_nabe(state, city, nabe))
+        show_stories(::OI::Story.for_nabe(state, city, nabe, options))
       end
     rescue ::OI::NotFoundException => e
       error("Neighborhood not found")
     end
 
     desc 'zip ZIP', 'Find stories for a zip code'
+    param_method_options
     def zip(zip)
       run do
-        show_stories(::OI::Story.for_zip_code(zip))
+        show_stories(::OI::Story.for_zip_code(zip, options))
       end
     rescue ::OI::NotFoundException => e
       error("Zip code not found")
     end
 
     desc 'uuid UUID[,UUID[...]]', 'Find stories for one or more location UUIDs'
+    param_method_options
     def uuid(uuids)
       run do
-        show_stories(::OI::Story.for_uuids(uuids.split(',')))
+        show_stories(::OI::Story.for_uuids(uuids.split(','), options))
       end
     rescue ::OI::NotFoundException => e
       error("UUID not found")
     end
+
   end
 end

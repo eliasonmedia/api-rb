@@ -57,10 +57,10 @@ Gem dependencies are managed with [Bundler](http://gembundler.com/). Install the
     # etc.
 
     # find by state
-    data = OI::Story.for_state("NY")
+    data = OI::Story.for_state("New York")
 
     # find by city
-    data = OI::Story.for_city("New York", "New York")
+    data = OI::Story.for_city("NY", "New York")
 
     # find by neighborhood
     data = OI::Story.for_nabe("ny", "new york", "williamsburg")
