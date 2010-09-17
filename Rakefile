@@ -10,3 +10,12 @@ begin
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
 end
+
+begin
+  require 'yard'
+  YARD::Rake::YardocTask.new do |t|
+    t.options = ['--hide-void-return', '--title', 'Outside.in Ruby SDK']
+  end
+rescue LoadError
+  puts "YARD is not available. Install it with: gem install yard"
+end

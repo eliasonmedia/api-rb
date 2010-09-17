@@ -81,7 +81,82 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+Location model class.
+</p>
+<p>
+Locations have the following attributes:
+</p>
+<ul>
+<li>category (<span class='object_link'><a href="Category.html" title="OI::Category (class)">Category</a></span>)
 
+</li>
+<li>city
+
+</li>
+<li>display_name
+
+</li>
+<li>lat (Float)
+
+</li>
+<li>lng (Float)
+
+</li>
+<li>state
+
+</li>
+<li>state_abbrev
+
+</li>
+<li>url
+
+</li>
+<li>url_name
+
+</li>
+<li>uuid
+
+</li>
+</ul>
+<p>
+Location finders accept query parameter options as described by
+Location#parameterize_url. They return data structures as described
+by Location#query_result.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><a href="http://developers.outside.in/docs/locations_query_resource" target="_parent" title="General API documentation for locations">General API documentation for locations</a></li>
+    
+  </ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
 
   
   
@@ -99,7 +174,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#named-class_method" title="named (class method)">+ (Object) <strong>named</strong>(name, options = {}) </a>
+      <a href="#named-class_method" title="named (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>named</strong>(name, options = {}) </a>
     
 
     
@@ -112,7 +187,60 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the locations matching <tt>name</tt>.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parameterize_url-class_method" title="parameterize_url (class method)">+ (String) <strong>parameterize_url</strong>(url, options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the provided URL with parameters attached to the query string as
+defined by the provided options.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_result-class_method" title="query_result (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>query_result</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns a hash encapsulating the data returned from a successful finder
+query.
+</p>
+</div></span>
   
 </li>
 
@@ -129,7 +257,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_s-instance_method" title="#to_s (instance method)">- (Object) <strong>to_s</strong> </a>
+      <a href="#to_s-instance_method" title="#to_s (instance method)">- (String) <strong>to_s</strong> </a>
     
 
     
@@ -142,7 +270,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the location&#8217;s display name and uuid.
+</p>
+</div></span>
   
 </li>
 
@@ -175,27 +306,436 @@
       <div class="method_details first">
   <p class="signature first" id="named-class_method">
   
-    + (<tt>Object</tt>) <strong>named</strong>(name, options = {}) 
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>named</strong>(name, options = {}) 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the locations matching <tt>name</tt>. See the API docs for
+specifics regarding matching rules.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the name to match
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-6
-7
-8
-9</pre>
+32
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 32</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='named identifier id'>named</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/locations/named/#{URI.escape(name)}&quot;</span>
   <span class='query_result identifier id'>query_result</span><span class='lparen token'>(</span><span class='call_remote identifier id'>call_remote</span><span class='lparen token'>(</span><span class='parameterize_url identifier id'>parameterize_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="parameterize_url-class_method">
+  
+    + (<tt>String</tt>) <strong>parameterize_url</strong>(url, options) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the provided URL with parameters attached to the query string as
+defined by the provided options.
+</p>
+<p>
+Calls Base#filter_params to compute the category parameter.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>url</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the base query resource URL
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>options</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">publication-id</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+the id of a publication, if location suppression is to be applied
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">limit</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+the maximum number of locations to return
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">category</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only locations matching these categorys
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">no-category</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only locations not matching these categories
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">wo-category</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only locations not matching these categories
+</p>
+</div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the URL including query parameters
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li>Base#filter_params</li>
+    
+      <li><a href="http://developers.outside.in/docs/locations_query_resource" target="_parent" title="Acceptable parameter values and defaults">Acceptable parameter values and defaults</a></li>
+    
+  </ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='parameterize_url identifier id'>parameterize_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+  <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{url}/publications/#{options['publication-id']}&quot;</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'publication-id'</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='qs identifier id'>qs</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;limit=#{options['limit']}&quot;</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'limit'</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='filter_params identifier id'>filter_params</span><span class='lparen token'>(</span><span class='symbol val'>:category</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span><span class='integer val'>? </span><span class='url identifier id'>url</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;#{url}?#{qs.join('&amp;')}&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_result-class_method">
+  
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>query_result</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns a hash encapsulating the data returned from a successful finder
+query.
+</p>
+<p>
+The hash contains the following data:
+</p>
+<ul>
+<li><tt>:total</tt> - the total number of matching locations (may be greater than the
+number of returned stories)
+
+</li>
+<li><tt>:locations</tt> - the array of best matching <span class='object_link'><a href="" title="OI::Location (class)">OI::Location</a></span> as per the
+specified or implied limit
+
+</li>
+</ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the raw query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 78</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='query_result identifier id'>query_result</span><span class='lparen token'>(</span><span class='data identifier id'>data</span><span class='rparen token'>)</span>
+  <span class='lbrace token'>{</span><span class='symbol val'>:total</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'total'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:locations</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'locations'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='l identifier id'>l</span><span class='bitor op'>|</span> <span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='l identifier id'>l</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -212,22 +752,63 @@
       <div class="method_details first">
   <p class="signature first" id="to_s-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_s</strong> 
+    - (<tt>String</tt>) <strong>to_s</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the location&#8217;s display name and uuid.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 41</span>
 
 <span class='def def kw'>def</span> <span class='to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;#{display_name} (#{uuid})&quot;</span>
@@ -243,7 +824,7 @@
 </div>
     
     <div id="footer">
-  Generated on Wed Sep 15 17:44:21 2010 by 
+  Generated on Fri Sep 17 13:22:27 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.8.7).
 </div>

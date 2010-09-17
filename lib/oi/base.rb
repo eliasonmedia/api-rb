@@ -5,7 +5,7 @@ require 'md5'
 module OI
   # The base class for API models.
   #
-  # Models interact with the remote service through the low level {OI::Base#call_remote} method. Each model class
+  # Models interact with the remote service through the low level {#call_remote} method. Each model class
   # defines its own high-level finder methods that encapsulate the remote service call. For example:
   #
   #  module OI
@@ -16,18 +16,25 @@ module OI
   #    end
   #  end
   #
-  # Model attributes are declared using {OI::Base#api_attr}. Only attributes declared this way are recognized by the
+  # Model attributes are declared using {#api_attr}. Only attributes declared this way are recognized by the
   # initializer when setting the model's initial state.
+  #
+  # @abstract Subclass and declare attributes with {#api_attr} to implement a custom model class.
+  # @since 1.0
   class Base
     # The map of defined attributes for this model class. The keys are attribute symbols and the values are
     # either nil (indicating that the attribute is of a primitive type) or instances of +Class+.
+    # @since 1.0
     @@api_attrs = {}
 
     # Adds one or more defined attributes for this model class.
     #
     # If the first argument is a +Hash+, then its entries are added directly to the defined attributes map.
     # Otherwise, each argument is taken to be the name of a primitive-typed attribute. In either case,
-    # {Module#attr_accessor} is called for each attribute.
+    # {::Module#attr_accessor} is called for each attribute.
+    #
+    # @return [void]
+    # @since 1.0
     def self.api_attr(*names)
       if ! names.empty? && names.first.is_a?(Hash)
         names.first.each_pair do |name, clazz|
@@ -60,6 +67,7 @@ module OI
     # @param [Symbol] name the base name of the query parameter
     # @param [Hash<String, Array<String>>] options the options which are examined for query parameter names
     # @return [Hash[String]]
+    # @since 1.0
     def self.filter_params(name, options)
       params = []
       params.concat(options[name.to_s].map {|s| "#{name}=#{URI.escape(s)}"}) if options.include?(name.to_s)
@@ -71,7 +79,7 @@ module OI
 
     # Calls the remote API service and returns the data encapsulated in the response.
     #
-    # Uses {Base#sign_url} to compute the signed absolute URL of the API resource.
+    # Uses {OI::Base#sign_url} to compute the signed absolute URL of the API resource.
     #
     # @param [String] relative_url the URL path relative to the version-identifier path component of the base
     #   service URL
@@ -81,6 +89,7 @@ module OI
     # @raise [OI::NotFoundException] for a +404+ response
     # @raise [OI::ServiceException] for any error response that indicates a service fault of some type
     # @raise [OI::ApiException] for any error response that indicates an invalid request or other client-side error
+    # @since 1.0
     def self.call_remote(relative_url)
       url = sign_url(relative_url)
       OI.logger.debug("Requesting #{url}") if OI.logger
@@ -113,6 +122,7 @@ module OI
     #
     # @param [String] url a URL to be signed and potentially absolutized
     # @return [String] the signed absolute URL
+    # @since 1.0
     def self.sign_url(url)
       sig_params = "dev_key=#{OI.key}&sig=#{MD5.new(OI.key + OI.secret + Time.now.to_i.to_s).hexdigest}"
       signed = if url =~ /\?/
@@ -131,6 +141,7 @@ module OI
     #
     # @param [Hash<Symbol, Object>] attrs the data used to initialize the model's attributes
     # @return [OI::Base]
+    # @since 1.0
     def initialize(attrs = {})
       @@api_attrs.each_pair do |name, clazz|
         str = name.to_s

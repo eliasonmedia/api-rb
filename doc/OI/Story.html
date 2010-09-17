@@ -81,7 +81,73 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+Story model class.
+</p>
+<p>
+Stories have the following attributes:
+</p>
+<ul>
+<li>feed_title
 
+</li>
+<li>feed_url
+
+</li>
+<li>story_url
+
+</li>
+<li>summary
+
+</li>
+<li>title
+
+</li>
+<li>uuid
+
+</li>
+<li>tags - (<tt>Array</tt> of <span class='object_link'><a href="Tag.html" title="OI::Tag (class)">Tag</a></span>)
+
+</li>
+</ul>
+<p>
+Story finders accept query parameter options as described by
+Story#parameterize_url. They return data structures as described by
+Story#query_result.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><a href="http://developers.outside.in/docs/stories_query_resource" target="_parent" title="General API documentation for stories">General API documentation for stories</a></li>
+    
+  </ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
 
   
   
@@ -99,7 +165,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_city-class_method" title="for_city (class method)">+ (Object) <strong>for_city</strong>(state, city, options = {}) </a>
+      <a href="#for_city-class_method" title="for_city (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>for_city</strong>(state, city, options = {}) </a>
     
 
     
@@ -112,7 +178,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the stories attached to <tt>city</tt> in <tt>state</tt>.
+</p>
+</div></span>
   
 </li>
 
@@ -120,7 +189,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_nabe-class_method" title="for_nabe (class method)">+ (Object) <strong>for_nabe</strong>(state, city, nabe, options = {}) </a>
+      <a href="#for_nabe-class_method" title="for_nabe (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>for_nabe</strong>(state, city, nabe, options = {}) </a>
     
 
     
@@ -133,7 +202,11 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the stories attached to <tt>nabe</tt> in <tt>city</tt> in
+<tt>state</tt>.
+</p>
+</div></span>
   
 </li>
 
@@ -141,7 +214,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_state-class_method" title="for_state (class method)">+ (Object) <strong>for_state</strong>(state, options = {}) </a>
+      <a href="#for_state-class_method" title="for_state (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>for_state</strong>(state, options = {}) </a>
     
 
     
@@ -154,7 +227,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the stories attached to <tt>state</tt>.
+</p>
+</div></span>
   
 </li>
 
@@ -162,7 +238,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_uuids-class_method" title="for_uuids (class method)">+ (Object) <strong>for_uuids</strong>(uuids, options = {}) </a>
+      <a href="#for_uuids-class_method" title="for_uuids (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>for_uuids</strong>(uuids, options = {}) </a>
     
 
     
@@ -175,7 +251,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the stories attached to the locations identified by <tt>uuids</tt>.
+</p>
+</div></span>
   
 </li>
 
@@ -183,7 +262,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_zip_code-class_method" title="for_zip_code (class method)">+ (Object) <strong>for_zip_code</strong>(zip, options = {}) </a>
+      <a href="#for_zip_code-class_method" title="for_zip_code (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>for_zip_code</strong>(zip, options = {}) </a>
     
 
     
@@ -196,7 +275,60 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the stories attached to <tt>zip</tt>.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parameterize_url-class_method" title="parameterize_url (class method)">+ (String) <strong>parameterize_url</strong>(url, options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the provided URL with parameters attached to the query string as
+defined by the provided options.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_result-class_method" title="query_result (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>query_result</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns a hash encapsulating the data returned from a successful finder
+query.
+</p>
+</div></span>
   
 </li>
 
@@ -213,7 +345,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_s-instance_method" title="#to_s (instance method)">- (Object) <strong>to_s</strong> </a>
+      <a href="#to_s-instance_method" title="#to_s (instance method)">- (String) <strong>to_s</strong> </a>
     
 
     
@@ -226,7 +358,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Returns the story&#8217;s title and uuid.
+</p>
+</div></span>
   
 </li>
 
@@ -259,23 +394,127 @@
       <div class="method_details first">
   <p class="signature first" id="for_city-class_method">
   
-    + (<tt>Object</tt>) <strong>for_city</strong>(state, city, options = {}) 
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>for_city</strong>(state, city, options = {}) 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the stories attached to <tt>city</tt> in <tt>state</tt>.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>state</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the state name or postal abbreviation
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>city</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the city name
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13
-14</pre>
+41
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 41</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='for_city identifier id'>for_city</span><span class='lparen token'>(</span><span class='state identifier id'>state</span><span class='comma token'>,</span> <span class='city identifier id'>city</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/stories&quot;</span>
@@ -290,23 +529,145 @@
       <div class="method_details ">
   <p class="signature " id="for_nabe-class_method">
   
-    + (<tt>Object</tt>) <strong>for_nabe</strong>(state, city, nabe, options = {}) 
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>for_nabe</strong>(state, city, nabe, options = {}) 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the stories attached to <tt>nabe</tt> in <tt>city</tt> in
+<tt>state</tt>.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>state</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the state name or postal abbreviation
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>city</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the city name
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>nabe</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the neighborhood name
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-16
-17
-18
-19</pre>
+54
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 54</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='for_nabe identifier id'>for_nabe</span><span class='lparen token'>(</span><span class='state identifier id'>state</span><span class='comma token'>,</span> <span class='city identifier id'>city</span><span class='comma token'>,</span> <span class='nabe identifier id'>nabe</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/nabes/#{URI.escape(nabe)}/stories&quot;</span>
@@ -321,23 +682,110 @@
       <div class="method_details ">
   <p class="signature " id="for_state-class_method">
   
-    + (<tt>Object</tt>) <strong>for_state</strong>(state, options = {}) 
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>for_state</strong>(state, options = {}) 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the stories attached to <tt>state</tt>.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>state</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the state name or postal abbreviation
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-6
-7
-8
-9</pre>
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 29</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='for_state identifier id'>for_state</span><span class='lparen token'>(</span><span class='state identifier id'>state</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/states/#{URI.escape(state)}/stories&quot;</span>
@@ -352,23 +800,110 @@
       <div class="method_details ">
   <p class="signature " id="for_uuids-class_method">
   
-    + (<tt>Object</tt>) <strong>for_uuids</strong>(uuids, options = {}) 
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>for_uuids</strong>(uuids, options = {}) 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the stories attached to the locations identified by <tt>uuids</tt>.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+        <span class='name'>uuids</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the location uuids
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-26
-27
-28
-29</pre>
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 76</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='for_uuids identifier id'>for_uuids</span><span class='lparen token'>(</span><span class='uuids identifier id'>uuids</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/locations/#{uuids.map{|u| URI.escape(u)}.join(&quot;,&quot;)}/stories&quot;</span>
@@ -383,27 +918,607 @@
       <div class="method_details ">
   <p class="signature " id="for_zip_code-class_method">
   
-    + (<tt>Object</tt>) <strong>for_zip_code</strong>(zip, options = {}) 
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>for_zip_code</strong>(zip, options = {}) 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the stories attached to <tt>zip</tt>.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>zip</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the zip code
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-21
-22
-23
-24</pre>
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 65</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='for_zip_code identifier id'>for_zip_code</span><span class='lparen token'>(</span><span class='zip identifier id'>zip</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/zipcodes/#{URI.escape(zip)}/stories&quot;</span>
   <span class='query_result identifier id'>query_result</span><span class='lparen token'>(</span><span class='call_remote identifier id'>call_remote</span><span class='lparen token'>(</span><span class='parameterize_url identifier id'>parameterize_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="parameterize_url-class_method">
+  
+    + (<tt>String</tt>) <strong>parameterize_url</strong>(url, options) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the provided URL with parameters attached to the query string as
+defined by the provided options.
+</p>
+<p>
+Calls Base#filter_params to compute keyword and taxonomy parameters.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>url</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the base query resource URL
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter options
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>options</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">publication-id</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+the id of a publication, if curation is to be applied
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">limit</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+the maximum number of stories to return
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="name">max-age</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+the maximum age of stories to return
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">keyword</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories matching these keywords
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">no-keyword</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these keywords
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">wo-keyword</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these keywords
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">vertical</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories matching these verticals
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">no-vertical</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these verticals
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">wo-vertical</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these verticals
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">format</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories matching these formats
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">no-format</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these formats
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">wo-format</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these formats
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">author-type</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories matching these author-types
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">no-author-type</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these author-types
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Array[String]</tt>)</span>
+          <span class="name">wo-author-type</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+return only stories not matching these author-types
+</p>
+</div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the URL including query parameters
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li>Base#filter_params</li>
+    
+      <li><a href="http://developers.outside.in/docs/stories_query_resource" target="_parent" title="Acceptable parameter values and defaults">Acceptable parameter values and defaults</a></li>
+    
+  </ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 114</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='parameterize_url identifier id'>parameterize_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+  <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='url identifier id'>url</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/stories$/</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/publications/#{options['publication-id']}/stories&quot;</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span>
+    <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'publication-id'</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='qs identifier id'>qs</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;limit=#{options['limit']}&quot;</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'limit'</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;max_age=#{URI.escape(options['max-age'])}&quot;</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'max-age'</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='filter_params identifier id'>filter_params</span><span class='lparen token'>(</span><span class='symbol val'>:keyword</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='filter_params identifier id'>filter_params</span><span class='lparen token'>(</span><span class='symbol val'>:vertical</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='filter_params identifier id'>filter_params</span><span class='lparen token'>(</span><span class='symbol val'>:format</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='filter_params identifier id'>filter_params</span><span class='lparen token'>(</span><span class='symbol val'>:'author-type'</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='qs identifier id'>qs</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span><span class='integer val'>? </span><span class='url identifier id'>url</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;#{url}?#{qs.join('&amp;')}&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_result-class_method">
+  
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>query_result</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns a hash encapsulating the data returned from a successful finder
+query.
+</p>
+<p>
+The hash contains the following data:
+</p>
+<ul>
+<li><tt>:total</tt> - the total number of matching stories (may be greater than the
+number of returned stories)
+
+</li>
+<li><tt>:stories</tt> - the array of most recent matching <span class='object_link'><a href="" title="OI::Story (class)">OI::Story</a></span> in reverse
+chronological order as per the specified or implied limit
+
+</li>
+<li><tt>:location</tt> - the <span class='object_link'><a href="Location.html" title="OI::Location (class)">Location</a></span> to which the finder was scoped (present
+for all non-UUID finders)
+
+</li>
+<li><tt>:locations</tt> - the array of <span class='object_link'><a href="Location.html" title="OI::Location (class)">Location</a></span> to which the finder was scoped
+(present only for the UUID finder)
+
+</li>
+</ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the raw query result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Object&gt;</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 140</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='query_result identifier id'>query_result</span><span class='lparen token'>(</span><span class='data identifier id'>data</span><span class='rparen token'>)</span>
+  <span class='rv identifier id'>rv</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:total</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'total'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:stories</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='if if kw'>if</span> <span class='data identifier id'>data</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'locations'</span><span class='rparen token'>)</span>
+    <span class='rv identifier id'>rv</span><span class='lbrack token'>[</span><span class='symbol val'>:locations</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'locations'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='l identifier id'>l</span><span class='bitor op'>|</span> <span class='Location constant id'>Location</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='l identifier id'>l</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='else else kw'>else</span>
+    <span class='rv identifier id'>rv</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='Location constant id'>Location</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'location'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='rv identifier id'>rv</span><span class='lbrack token'>[</span><span class='symbol val'>:stories</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'stories'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='bitor op'>|</span> <span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='s identifier id'>s</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rv identifier id'>rv</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -420,22 +1535,63 @@
       <div class="method_details first">
   <p class="signature first" id="to_s-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_s</strong> 
+    - (<tt>String</tt>) <strong>to_s</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the story&#8217;s title and uuid.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+1.0
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-31
-32
-33</pre>
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/story.rb', line 85</span>
 
 <span class='def def kw'>def</span> <span class='to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;#{title} (#{uuid})&quot;</span>
@@ -451,7 +1607,7 @@
 </div>
     
     <div id="footer">
-  Generated on Wed Sep 15 17:44:21 2010 by 
+  Generated on Fri Sep 17 13:22:28 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.8.7).
 </div>
