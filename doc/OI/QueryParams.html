@@ -122,7 +122,7 @@ convert input values into query parameters and to add them to query URLs.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (OI::QueryParams) <strong>initialize</strong>(inputs = {}, simple = {}, negatable = {}) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (OI::QueryParams) <strong>initialize</strong>(simple = {}, negatable = {}) </a>
     
 
     
@@ -138,8 +138,7 @@ convert input values into query parameters and to add them to query URLs.
 
   
     <span class="summary_desc"><div class='inline'><p>
-Creates and returns an instance based on various inputs and parameter
-names.
+Creates and returns an instance based on various parameter names.
 </p>
 </div></span>
   
@@ -149,7 +148,7 @@ names.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parameterize_url-instance_method" title="#parameterize_url (instance method)">- (String) <strong>parameterize_url</strong>(url) </a>
+      <a href="#parameterize-instance_method" title="#parameterize (instance method)">- (String) <strong>parameterize</strong>(url, inputs) </a>
     
 
     
@@ -179,15 +178,14 @@ Returns the provided URL with parameters attached to the query string.
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="OI::QueryParams (class)">OI::QueryParams</a></span></tt>) <strong>initialize</strong>(inputs = {}, simple = {}, negatable = {}) 
+    - (<tt><span class='object_link'><a href="" title="OI::QueryParams (class)">OI::QueryParams</a></span></tt>) <strong>initialize</strong>(simple = {}, negatable = {}) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
     <p>
-Creates and returns an instance based on various inputs and parameter
-names.
+Creates and returns an instance based on various parameter names.
 </p>
 <p>
 For each simple parameter name, a parameter with that name is added when
@@ -211,25 +209,6 @@ for a different purpose).
 <div class="tags">
   <h3>Parameters:</h3>
 <ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
-      
-      
-        <span class='name'>inputs</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the query parameter inputs
-</p>
-</div>
-      
-    </li>
   
     <li>
       
@@ -294,41 +273,17 @@ the names of negatable input parameters mapped to API parameter names
       <pre class="lines">
 
 
+23
 24
 25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39</pre>
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/query_params.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/query_params.rb', line 23</span>
 
-<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='inputs identifier id'>inputs</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='simple identifier id'>simple</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='negatable identifier id'>negatable</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='@params ivar id'>@params</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-
-  <span class='simple identifier id'>simple</span><span class='dot token'>.</span><span class='each_pair identifier id'>each_pair</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='input identifier id'>input</span><span class='comma token'>,</span> <span class='api identifier id'>api</span><span class='bitor op'>|</span>
-    <span class='nk identifier id'>nk</span> <span class='assign token'>=</span> <span class='input identifier id'>input</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
-    <span class='@params ivar id'>@params</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{api}=#{inputs[nk]}&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
-  <span class='end end kw'>end</span>
-
-  <span class='negatable identifier id'>negatable</span><span class='dot token'>.</span><span class='each_pair identifier id'>each_pair</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='input identifier id'>input</span><span class='comma token'>,</span> <span class='api identifier id'>api</span><span class='bitor op'>|</span>
-    <span class='nk identifier id'>nk</span> <span class='assign token'>=</span> <span class='input identifier id'>input</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
-    <span class='@params ivar id'>@params</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{api}=#{URI.escape(s)}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
-    <span class='lbrack token'>[</span><span class='dstring node'>&quot;wo-#{input}&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;no-#{input}&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='nk identifier id'>nk</span><span class='bitor op'>|</span>
-      <span class='@params ivar id'>@params</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;no-#{api}=#{URI.escape(s)}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
-    <span class='end end kw'>end</span>
-  <span class='end end kw'>end</span>
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='simple identifier id'>simple</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='negatable identifier id'>negatable</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='@simple ivar id'>@simple</span> <span class='assign token'>=</span> <span class='simple identifier id'>simple</span>
+  <span class='@negatable ivar id'>@negatable</span> <span class='assign token'>=</span> <span class='negatable identifier id'>negatable</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -344,9 +299,9 @@ the names of negatable input parameters mapped to API parameter names
     
     
       <div class="method_details first">
-  <p class="signature first" id="parameterize_url-instance_method">
+  <p class="signature first" id="parameterize-instance_method">
   
-    - (<tt>String</tt>) <strong>parameterize_url</strong>(url) 
+    - (<tt>String</tt>) <strong>parameterize</strong>(url, inputs) 
   
 
   
@@ -362,6 +317,23 @@ Returns the provided URL with parameters attached to the query string.
 <div class="tags">
   <h3>Parameters:</h3>
 <ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
+      
+      
+        <span class='name'>inputs</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the query parameter inputs
+</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -424,15 +396,55 @@ the URL including query parameters
       <pre class="lines">
 
 
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
 46
 47
-48</pre>
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/query_params.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/query_params.rb', line 34</span>
 
-<span class='def def kw'>def</span> <span class='parameterize_url identifier id'>parameterize_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='rparen token'>)</span>
-  <span class='@params ivar id'>@params</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span><span class='integer val'>? </span><span class='url identifier id'>url</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;#{url}?#{@params.join('&amp;')}&quot;</span>
+<span class='def def kw'>def</span> <span class='parameterize identifier id'>parameterize</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='inputs identifier id'>inputs</span><span class='rparen token'>)</span>
+  <span class='params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='@simple ivar id'>@simple</span><span class='dot token'>.</span><span class='each_pair identifier id'>each_pair</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='input identifier id'>input</span><span class='comma token'>,</span> <span class='api identifier id'>api</span><span class='bitor op'>|</span>
+    <span class='nk identifier id'>nk</span> <span class='assign token'>=</span> <span class='input identifier id'>input</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+    <span class='params identifier id'>params</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{api}=#{inputs[nk]}&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
+  <span class='end end kw'>end</span>
+
+  <span class='@negatable ivar id'>@negatable</span><span class='dot token'>.</span><span class='each_pair identifier id'>each_pair</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='input identifier id'>input</span><span class='comma token'>,</span> <span class='api identifier id'>api</span><span class='bitor op'>|</span>
+    <span class='nk identifier id'>nk</span> <span class='assign token'>=</span> <span class='input identifier id'>input</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+    <span class='params identifier id'>params</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{api}=#{URI.escape(s)}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
+    <span class='lbrack token'>[</span><span class='dstring node'>&quot;wo-#{input}&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;no-#{input}&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='nk identifier id'>nk</span><span class='bitor op'>|</span>
+      <span class='params identifier id'>params</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;no-#{api}=#{URI.escape(s)}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='nk identifier id'>nk</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='if if kw'>if</span> <span class='params identifier id'>params</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+    <span class='url identifier id'>url</span>
+  <span class='else else kw'>else</span>
+    <span class='sep identifier id'>sep</span> <span class='assign token'>=</span> <span class='url identifier id'>url</span> <span class='match op'>=~</span> <span class='regexp val'>/\?/</span> <span class='question op'>?</span> <span class='string val'>'&amp;'</span> <span class='colon op'>:</span> <span class='string val'>'?'</span>
+    <span class='dstring node'>&quot;#{url}#{sep}#{params.join('&amp;')}&quot;</span>
+  <span class='end end kw'>end</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -445,7 +457,7 @@ the URL including query parameters
 </div>
     
     <div id="footer">
-  Generated on Fri Sep 17 16:23:28 2010 by 
+  Generated on Fri Sep 17 17:25:43 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.8.7).
 </div>

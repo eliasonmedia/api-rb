@@ -26,29 +26,14 @@ module OI
     api_attr :category => Category
     api_attr :uuid => SimpleUUID::UUID
 
-    SIMPLE_PARAMS = {:limit => :limit}
-    NEGATABLE_PARAMS = {:category => :category}
-
     # Returns the locations matching +name+. See the API docs for specifics regarding matching rules.
     #
     # @param [String] name the name to match
     # @param [Hash<String, Object>] inputs the data inputs
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
-    def self.named(name, inputs = {})
-      url = "/locations/named/#{URI.escape(name)}"
-      query_result(call_remote(scope_url(url, inputs), QueryParams.new(inputs, SIMPLE_PARAMS, NEGATABLE_PARAMS)))
-    end
-
-    # Returns a version of +url+ that includes publication scoping when +inputs+ contains a non-nil
-    # +publication-id+ entry.
-    #
-    # @param [String] url the URL to potentially scope
-    # @param [Hash<String, Object>] inputs the data inputs
-    # @return [String] the URL, scoped if necessary
-    # @since 1.0
-    def self.scope_url(url, inputs = {})
-      inputs['publication-id'].nil?? url : "#{url}/publications/#{inputs['publication-id']}"
+    def self.named(name, inputs)
+      query_result(OI::Resource::LocationFinder.new("/locations/named/#{URI.escape(name)}").GET(inputs))
     end
 
     # Returns the location's display name and uuid.

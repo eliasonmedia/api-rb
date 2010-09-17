@@ -7,6 +7,9 @@ require 'oi/category'
 require 'oi/tag'
 require 'oi/location'
 require 'oi/story'
+require 'oi/resource/base'
+require 'oi/resource/location_finder'
+require 'oi/resource/story_finder'
 
 module OI
   # The API service host

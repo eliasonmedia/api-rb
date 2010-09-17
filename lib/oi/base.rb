@@ -1,7 +1,3 @@
-require 'httparty'
-require 'json'
-require 'md5'
-
 module OI
   # The base class for API models.
   #
@@ -54,66 +50,6 @@ module OI
           attr_accessor(name.to_sym)
         end
       end
-    end
-
-    # Calls the remote API service and returns the data encapsulated in the response.
-    #
-    # Uses {OI::Base#sign_url} to compute the signed absolute URL of the API resource.
-    #
-    # @param [String] relative_url the URL path relative to the version-identifier path component of the base
-    #   service URL
-    # @param [OI::QueryParams] qp any query parameters for the API call
-    # @return [Object] the returned data structure as defined by the API specification (as parsed from the JSON
-    #   envelope)
-    # @raise [OI::ForbiddenException] for a +403+ response
-    # @raise [OI::NotFoundException] for a +404+ response
-    # @raise [OI::ServiceException] for any error response that indicates a service fault of some type
-    # @raise [OI::ApiException] for any error response that indicates an invalid request or other client-side error
-    # @since 1.0
-    def self.call_remote(relative_url, qp = nil)
-      query_url = qp ? qp.parameterize_url(relative_url) : relative_url
-      signed_url = sign_url(query_url)
-      OI.logger.debug("Requesting #{signed_url}") if OI.logger
-      response = HTTParty.get(signed_url)
-      unless response.code < 300
-        raise ForbiddenException if response.code == 403
-        raise NotFoundException if response.code == 404
-        if response.headers.include?('x-mashery-error-code')
-          raise ServiceException, response.headers['x-mashery-error-code']
-        else
-          data = JSON[response.body]
-          msg = []
-          if data.include?('error')
-            msg << data['error']
-          elsif data.include?('errors')
-            msg.concat(data['errors'])
-          else
-            msg << 'unknown error'
-          end
-          raise ApiException, msg.join('; ')
-        end
-      end
-      JSON[response.body]
-    end
-
-    # Returns the signed, absolutized form of +url+. 
-    #
-    # If +url+ begins with +/+ then the base service URL is prepended to it. The +dev_key+ and +sig+ query parameters
-    # are appended to the query string.
-    #
-    # @param [String] url a URL to be signed and potentially absolutized
-    # @return [String] the signed absolute URL
-    # @since 1.0
-    def self.sign_url(url)
-      raise SignatureException, "Key not set" unless OI.key
-      raise SignatureException, "Secret not set" unless OI.secret
-      sig_params = "dev_key=#{OI.key}&sig=#{MD5.new(OI.key + OI.secret + Time.now.to_i.to_s).hexdigest}"
-      signed = if url =~ /\?/
-        "#{url}&#{sig_params}"
-      else
-        "#{url}?#{sig_params}"
-      end
-      signed =~ /^\// ? "http://#{HOST}/v#{VERSION}#{signed}" : signed
     end
 
     # Returns a new instance.

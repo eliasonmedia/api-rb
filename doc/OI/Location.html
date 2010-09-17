@@ -157,75 +157,6 @@ by Location#query_result.
 </ul>
 
 </div>
-  <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="SIMPLE_PARAMS-constant" class="">SIMPLE_PARAMS =
-          <div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Since:</h3>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>
-1.0
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:limit</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:limit</span><span class='rbrace token'>}</span>
-</pre></dd>
-      
-        <dt id="NEGATABLE_PARAMS-constant" class="">NEGATABLE_PARAMS =
-          <div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Since:</h3>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>
-1.0
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:category</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:category</span><span class='rbrace token'>}</span>
-</pre></dd>
-      
-    </dl>
-  
-
 
   
   
@@ -243,7 +174,7 @@ by Location#query_result.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#named-class_method" title="named (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>named</strong>(name, inputs = {}) </a>
+      <a href="#named-class_method" title="named (class method)">+ (Hash&lt;Symbol, Object&gt;) <strong>named</strong>(name, inputs) </a>
     
 
     
@@ -283,31 +214,6 @@ Returns the locations matching <tt>name</tt>.
     <span class="summary_desc"><div class='inline'><p>
 Returns a hash encapsulating the data returned from a successful finder
 query.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#scope_url-class_method" title="scope_url (class method)">+ (String) <strong>scope_url</strong>(url, inputs = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Returns a version of <tt>url</tt> that includes publication scoping when
-<tt>inputs</tt> contains a non-nil <tt>publication-id</tt> entry.
 </p>
 </div></span>
   
@@ -359,7 +265,7 @@ Returns the location&#8217;s display name and uuid.
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Base.html" title="OI::Base (class)">Base</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Base.html#api_attr-class_method" title="OI::Base.api_attr (method)">api_attr</a></span>, <span class='object_link'><a href="Base.html#api_attrs-class_method" title="OI::Base.api_attrs (method)">api_attrs</a></span>, <span class='object_link'><a href="Base.html#call_remote-class_method" title="OI::Base.call_remote (method)">call_remote</a></span>, <span class='object_link'><a href="Base.html#initialize-instance_method" title="OI::Base#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Base.html#sign_url-class_method" title="OI::Base.sign_url (method)">sign_url</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Base.html#api_attr-class_method" title="OI::Base.api_attr (method)">api_attr</a></span>, <span class='object_link'><a href="Base.html#api_attrs-class_method" title="OI::Base.api_attrs (method)">api_attrs</a></span>, <span class='object_link'><a href="Base.html#initialize-instance_method" title="OI::Base#initialize (method)">#initialize</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -375,7 +281,7 @@ Returns the location&#8217;s display name and uuid.
       <div class="method_details first">
   <p class="signature first" id="named-class_method">
   
-    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>named</strong>(name, inputs = {}) 
+    + (<tt>Hash&lt;Symbol, Object&gt;</tt>) <strong>named</strong>(name, inputs) 
   
 
   
@@ -417,8 +323,6 @@ the name to match
       
         <span class='name'>inputs</span>
       
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
@@ -473,17 +377,15 @@ the query result
       <pre class="lines">
 
 
-38
-39
-40
-41</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 35</span>
 
-<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='named identifier id'>named</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='inputs identifier id'>inputs</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/locations/named/#{URI.escape(name)}&quot;</span>
-  <span class='query_result identifier id'>query_result</span><span class='lparen token'>(</span><span class='call_remote identifier id'>call_remote</span><span class='lparen token'>(</span><span class='scope_url identifier id'>scope_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='inputs identifier id'>inputs</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='QueryParams constant id'>QueryParams</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='inputs identifier id'>inputs</span><span class='comma token'>,</span> <span class='SIMPLE_PARAMS constant id'>SIMPLE_PARAMS</span><span class='comma token'>,</span> <span class='NEGATABLE_PARAMS constant id'>NEGATABLE_PARAMS</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='named identifier id'>named</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='inputs identifier id'>inputs</span><span class='rparen token'>)</span>
+  <span class='query_result identifier id'>query_result</span><span class='lparen token'>(</span><span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='LocationFinder constant id'>LocationFinder</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/locations/named/#{URI.escape(name)}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='GET constant id'>GET</span><span class='lparen token'>(</span><span class='inputs identifier id'>inputs</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -580,132 +482,15 @@ the raw query result
       <pre class="lines">
 
 
-72
-73
-74</pre>
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 57</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='query_result identifier id'>query_result</span><span class='lparen token'>(</span><span class='data identifier id'>data</span><span class='rparen token'>)</span>
   <span class='lbrace token'>{</span><span class='symbol val'>:total</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'total'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:locations</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'locations'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='l identifier id'>l</span><span class='bitor op'>|</span> <span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='l identifier id'>l</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="scope_url-class_method">
-  
-    + (<tt>String</tt>) <strong>scope_url</strong>(url, inputs = {}) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-Returns a version of <tt>url</tt> that includes publication scoping when
-<tt>inputs</tt> contains a non-nil <tt>publication-id</tt> entry.
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-        <span class='name'>url</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the URL to potentially scope
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash&lt;String, Object&gt;</tt>)</span>
-      
-      
-        <span class='name'>inputs</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the data inputs
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the URL, scoped if necessary
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-<h3>Since:</h3>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>
-1.0
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-50
-51
-52</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 50</span>
-
-<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='scope_url identifier id'>scope_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='inputs identifier id'>inputs</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='inputs identifier id'>inputs</span><span class='lbrack token'>[</span><span class='string val'>'publication-id'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span><span class='integer val'>? </span><span class='url identifier id'>url</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;#{url}/publications/#{inputs['publication-id']}&quot;</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -773,12 +558,12 @@ Returns the location&#8217;s display name and uuid.
       <pre class="lines">
 
 
-58
-59
-60</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/location.rb', line 43</span>
 
 <span class='def def kw'>def</span> <span class='to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;#{display_name} (#{uuid.to_guid})&quot;</span>
@@ -794,7 +579,7 @@ Returns the location&#8217;s display name and uuid.
 </div>
     
     <div id="footer">
-  Generated on Fri Sep 17 16:23:27 2010 by 
+  Generated on Fri Sep 17 17:25:43 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.8.7).
 </div>

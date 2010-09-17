@@ -5,7 +5,7 @@ module OI
   # @since 1.0
   class QueryParams
 
-    # Creates and returns an instance based on various inputs and parameter names.
+    # Creates and returns an instance based on various parameter names.
     #
     # For each simple parameter name, a parameter with that name is added when the inputs hash contains a value for
     # that key.
@@ -16,35 +16,43 @@ module OI
     # inputs hash contains a value for the parameter's name prefixed with "no-" or the name prefixed with "wo-" (the
     # form used by the Thor tasks, which reserve the "no-" prefix for a different purpose).
     #
-    # @param [Hash<String, Object>] inputs the query parameter inputs
     # @param [Hash<Symbol, Symbol>] simple the names of simple input parameters mapped to API parameter names
     # @param [Hash<Symbol, Symbol>] negatable the names of negatable input parameters mapped to API parameter names
     # @return [OI::QueryParams]
     # @since 1.0
-    def initialize(inputs = {}, simple = {}, negatable = {})
-      @params = []
-
-      simple.each_pair do |input, api|
-        nk = input.to_s
-        @params << "#{api}=#{inputs[nk]}" unless inputs[nk].nil?
-      end
-
-      negatable.each_pair do |input, api|
-        nk = input.to_s
-        @params.concat(inputs[nk].map {|s| "#{api}=#{URI.escape(s)}"}) unless inputs[nk].nil?
-        ["wo-#{input}", "no-#{input}"].each do |nk|
-          @params.concat(inputs[nk].map {|s| "no-#{api}=#{URI.escape(s)}"}) unless inputs[nk].nil?
-        end
-      end
+    def initialize(simple = {}, negatable = {})
+      @simple = simple
+      @negatable = negatable
     end
 
     # Returns the provided URL with parameters attached to the query string.
     #
+    # @param [Hash<String, Object>] inputs the query parameter inputs
     # @param [String] url the base query resource URL
     # @return [String] the URL including query parameters
     # @since 1.0
-    def parameterize_url(url)
-      @params.empty?? url : "#{url}?#{@params.join('&')}"
+    def parameterize(url, inputs)
+      params = []
+
+      @simple.each_pair do |input, api|
+        nk = input.to_s
+        params << "#{api}=#{inputs[nk]}" unless inputs[nk].nil?
+      end
+
+      @negatable.each_pair do |input, api|
+        nk = input.to_s
+        params.concat(inputs[nk].map {|s| "#{api}=#{URI.escape(s)}"}) unless inputs[nk].nil?
+        ["wo-#{input}", "no-#{input}"].each do |nk|
+          params.concat(inputs[nk].map {|s| "no-#{api}=#{URI.escape(s)}"}) unless inputs[nk].nil?
+        end
+      end
+
+      if params.empty?
+        url
+      else
+        sep = url =~ /\?/ ? '&' : '?'
+        "#{url}#{sep}#{params.join('&')}"
+      end
     end
   end
 end
