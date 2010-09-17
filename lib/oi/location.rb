@@ -1,3 +1,5 @@
+require 'simple_uuid'
+
 module OI
   # Location model class.
   #
@@ -12,7 +14,7 @@ module OI
   # * state_abbrev
   # * url
   # * url_name
-  # * uuid
+  # * uuid ({SimpleUUID::UUID})
   #
   # Location finders accept query parameter options as described by {OI::Location#parameterize_url}. They return data
   # structures as described by {OI::Location#query_result}.
@@ -20,8 +22,9 @@ module OI
   # @see http://developers.outside.in/docs/locations_query_resource General API documentation for locations
   # @since 1.0
   class Location < Base
-    api_attr :city, :display_name, :lat, :lng, :state, :state_abbrev, :url, :url_name, :uuid
+    api_attr :city, :display_name, :lat, :lng, :state, :state_abbrev, :url, :url_name
     api_attr :category => Category
+    api_attr :uuid => SimpleUUID::UUID
 
     # Returns the locations matching +name+. See the API docs for specifics regarding matching rules.
     #
@@ -39,7 +42,7 @@ module OI
     # @return [String]
     # @since 1.0
     def to_s
-      "#{display_name} (#{uuid})"
+      "#{display_name} (#{uuid.to_guid})"
     end
 
     # Returns the provided URL with parameters attached to the query string as defined by the provided options.

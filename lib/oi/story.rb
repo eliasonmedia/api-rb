@@ -1,3 +1,5 @@
+require 'simple_uuid'
+
 module OI
   # Story model class.
   #
@@ -7,9 +9,9 @@ module OI
   # * feed_url
   # * story_url
   # * summary
-  # * title
-  # * uuid
   # * tags - (+Array+ of {OI::Tag})
+  # * title
+  # * uuid ({SimpleUUID::UUID})
   #
   # Story finders accept query parameter options as described by {OI::Story#parameterize_url}. They return data
   # structures as described by {OI::Story#query_result}.
@@ -69,12 +71,12 @@ module OI
 
     # Returns the stories attached to the locations identified by +uuids+.
     #
-    # @param [Array<String>] uuids the location uuids
+    # @param [Array<SimpleUUID::UUID>] uuids the location uuids
     # @param [Hash<String, Object>] options the query parameter options
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
     def self.for_uuids(uuids, options = {})
-      url = "/locations/#{uuids.map{|u| URI.escape(u)}.join(",")}/stories"
+      url = "/locations/#{uuids.map{|u| URI.escape(u.to_guid)}.join(",")}/stories"
       query_result(call_remote(parameterize_url(url, options)))
     end
 
@@ -83,7 +85,7 @@ module OI
     # @return [String]
     # @since 1.0
     def to_s
-      "#{title} (#{uuid})"
+      "#{title} (#{uuid.to_guid})"
     end
 
     # Returns the provided URL with parameters attached to the query string as defined by the provided options.

@@ -6,6 +6,7 @@ GEM
     httparty (0.6.1)
       crack (= 0.1.8)
     json (1.4.6)
+    simple_uuid (0.1.1)
     text-hyphen (1.0.0)
     text-reform (0.2.0)
       text-hyphen (~> 1.0.0)
@@ -18,5 +19,6 @@ DEPENDENCIES
   activesupport (= 3.0.0)
   httparty
   json
+  simple_uuid
   text-reform
   thor

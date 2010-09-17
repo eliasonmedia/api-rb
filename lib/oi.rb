@@ -50,4 +50,8 @@ module OI
   # Usually means that something has gone wrong on the service side of the communication.
   # @since 1.0
   class ServiceException < ApiException; end
+
+  # Indicates that a request could not be signed for some reason.
+  # @since 1.0
+  class SignatureException < ApiException; end
 end

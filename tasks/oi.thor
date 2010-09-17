@@ -6,6 +6,7 @@ Bundler.setup
 $: << 'lib'
 
 require 'oi'
+require 'simple_uuid'
 require 'text/reform'
 require 'yaml'
 
@@ -61,7 +62,7 @@ module OI
         names = data[:locations].map do |l|
           l.display_name.length > 32 ? "#{l.display_name[0, 27]} ..." : l.display_name
         end
-        uuids = data[:locations].map {|l| l.uuid}
+        uuids = data[:locations].map {|l| l.uuid.to_guid}
         r = Text::Reform.new
         say(r.format(
           "",
@@ -160,7 +161,7 @@ module OI
     param_method_options
     def uuid(uuids)
       run do
-        show_stories(::OI::Story.for_uuids(uuids.split(','), options))
+        show_stories(::OI::Story.for_uuids(uuids.split(',').map {|s| SimpleUUID::UUID.new(s)}, options))
       end
     rescue ::OI::NotFoundException => e
       error("UUID not found")

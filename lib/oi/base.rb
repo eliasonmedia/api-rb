@@ -22,10 +22,16 @@ module OI
   # @abstract Subclass and declare attributes with {#api_attr} to implement a custom model class.
   # @since 1.0
   class Base
-    # The map of defined attributes for this model class. The keys are attribute symbols and the values are
-    # either nil (indicating that the attribute is of a primitive type) or instances of +Class+.
-    # @since 1.0
-    @@api_attrs = {}
+    class << self
+      # Returns the map of defined attributes for this model class. The keys are attribute symbols and the values are
+      # the attribute classes (or +nil+, indicating that the attribute is of a primitive type).
+      #
+      # @return [Hash<Symbol, Class>]
+      # @since 1.0
+      def api_attrs
+        @api_attrs
+      end
+    end
 
     # Adds one or more defined attributes for this model class.
     #
@@ -36,14 +42,15 @@ module OI
     # @return [void]
     # @since 1.0
     def self.api_attr(*names)
+      @api_attrs ||= {}
       if ! names.empty? && names.first.is_a?(Hash)
         names.first.each_pair do |name, clazz|
-          @@api_attrs[name.to_sym] = clazz
+          @api_attrs[name.to_sym] = clazz
           attr_accessor(name.to_sym)
         end
       else
         names.each do |name|
-          @@api_attrs[name.to_sym] = nil
+          @api_attrs[name.to_sym] = nil
           attr_accessor(name.to_sym)
         end
       end
@@ -124,6 +131,8 @@ module OI
     # @return [String] the signed absolute URL
     # @since 1.0
     def self.sign_url(url)
+      raise SignatureException, "Key not set" unless OI.key
+      raise SignatureException, "Secret not set" unless OI.secret
       sig_params = "dev_key=#{OI.key}&sig=#{MD5.new(OI.key + OI.secret + Time.now.to_i.to_s).hexdigest}"
       signed = if url =~ /\?/
         "#{url}&#{sig_params}"
@@ -143,7 +152,7 @@ module OI
     # @return [OI::Base]
     # @since 1.0
     def initialize(attrs = {})
-      @@api_attrs.each_pair do |name, clazz|
+      self.class.api_attrs.each_pair do |name, clazz|
         str = name.to_s
         if attrs.include?(str)
           v = attrs[str]
