@@ -200,7 +200,7 @@ Returns the map of defined attributes for this model class.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#call_remote-class_method" title="call_remote (class method)">+ (Object) <strong>call_remote</strong>(relative_url) </a>
+      <a href="#call_remote-class_method" title="call_remote (class method)">+ (Object) <strong>call_remote</strong>(relative_url, qp = nil) </a>
     
 
     
@@ -216,31 +216,6 @@ Returns the map of defined attributes for this model class.
     <span class="summary_desc"><div class='inline'><p>
 Calls the remote API service and returns the data encapsulated in the
 response.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#filter_params-class_method" title="filter_params (class method)">+ (Hash[String]) <strong>filter_params</strong>(name, options) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Returns a list of URL query parameters computed by examining
-<tt>options</tt> for entries related to <tt>name</tt>.
 </p>
 </div></span>
   
@@ -382,23 +357,23 @@ the data used to initialize the model&#8217;s attributes
       <pre class="lines">
 
 
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167</pre>
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/base.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/base.rb', line 128</span>
 
 <span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='attrs identifier id'>attrs</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='api_attrs identifier id'>api_attrs</span><span class='dot token'>.</span><span class='each_pair identifier id'>each_pair</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='clazz identifier id'>clazz</span><span class='bitor op'>|</span>
@@ -587,7 +562,7 @@ attribute symbols and the values are the attribute classes (or
       <div class="method_details ">
   <p class="signature " id="call_remote-class_method">
   
-    + (<tt>Object</tt>) <strong>call_remote</strong>(relative_url) 
+    + (<tt>Object</tt>) <strong>call_remote</strong>(relative_url, qp = nil) 
   
 
   
@@ -622,6 +597,25 @@ resource.
         <div class='inline'><p>
 the URL path relative to the version-identifier path component of the base
 service URL
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="QueryParams.html" title="OI::QueryParams (class)">OI::QueryParams</a></span></tt>)</span>
+      
+      
+        <span class='name'>qp</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+any query parameters for the API call
 </p>
 </div>
       
@@ -737,38 +731,40 @@ client-side error
       <pre class="lines">
 
 
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123</pre>
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/base.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/base.rb', line 73</span>
 
-<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='call_remote identifier id'>call_remote</span><span class='lparen token'>(</span><span class='relative_url identifier id'>relative_url</span><span class='rparen token'>)</span>
-  <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='sign_url identifier id'>sign_url</span><span class='lparen token'>(</span><span class='relative_url identifier id'>relative_url</span><span class='rparen token'>)</span>
-  <span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='logger identifier id'>logger</span><span class='dot token'>.</span><span class='debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Requesting #{url}&quot;</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='logger identifier id'>logger</span>
-  <span class='response identifier id'>response</span> <span class='assign token'>=</span> <span class='HTTParty constant id'>HTTParty</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='rparen token'>)</span>
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='call_remote identifier id'>call_remote</span><span class='lparen token'>(</span><span class='relative_url identifier id'>relative_url</span><span class='comma token'>,</span> <span class='qp identifier id'>qp</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='query_url identifier id'>query_url</span> <span class='assign token'>=</span> <span class='qp identifier id'>qp</span> <span class='integer val'>? </span><span class='qp identifier id'>qp</span><span class='dot token'>.</span><span class='parameterize_url identifier id'>parameterize_url</span><span class='lparen token'>(</span><span class='relative_url identifier id'>relative_url</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='relative_url identifier id'>relative_url</span>
+  <span class='signed_url identifier id'>signed_url</span> <span class='assign token'>=</span> <span class='sign_url identifier id'>sign_url</span><span class='lparen token'>(</span><span class='query_url identifier id'>query_url</span><span class='rparen token'>)</span>
+  <span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='logger identifier id'>logger</span><span class='dot token'>.</span><span class='debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Requesting #{signed_url}&quot;</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='logger identifier id'>logger</span>
+  <span class='response identifier id'>response</span> <span class='assign token'>=</span> <span class='HTTParty constant id'>HTTParty</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='signed_url identifier id'>signed_url</span><span class='rparen token'>)</span>
   <span class='unless unless kw'>unless</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='code identifier id'>code</span> <span class='lt op'>&lt;</span> <span class='integer val'>300</span>
     <span class='raise identifier id'>raise</span> <span class='ForbiddenException constant id'>ForbiddenException</span> <span class='if if_mod kw'>if</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='code identifier id'>code</span> <span class='eq op'>==</span> <span class='integer val'>403</span>
     <span class='raise identifier id'>raise</span> <span class='NotFoundException constant id'>NotFoundException</span> <span class='if if_mod kw'>if</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='code identifier id'>code</span> <span class='eq op'>==</span> <span class='integer val'>404</span>
@@ -788,144 +784,6 @@ client-side error
     <span class='end end kw'>end</span>
   <span class='end end kw'>end</span>
   <span class='JSON constant id'>JSON</span><span class='lbrack token'>[</span><span class='response identifier id'>response</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='rbrack token'>]</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="filter_params-class_method">
-  
-    + (<tt>Hash[String]</tt>) <strong>filter_params</strong>(name, options) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-Returns a list of URL query parameters computed by examining
-<tt>options</tt> for entries related to <tt>name</tt>.
-</p>
-<p>
-This method encapsulates the &quot;include/exclude&quot; pattern for query
-parameters that filter model queries. For example, stories queries take the
-<tt>keyword</tt> and <tt>no-keyword</tt> parameters to include or exclude stories
-containing the parameter values in their titles, summaries or tags.
-</p>
-<p>
-A parameter named <tt>#{name}</tt> is added when the options hash contains that
-key. A parameter named <tt>no-#{name}</tt> is added when the options hash contains
-that key or the key <tt>wo-#{name}</tt> (the form used by the Thor tasks, which
-reserve the &quot;no-&quot; prefix for a different purpose).
-</p>
-<p>
-Example:
-</p>
-<pre class="code">
-  <span class='rshft op'>&gt;&gt;</span> <span class='OI constant id'>OI</span><span class='colon2 op'>::</span><span class='Base constant id'>Base</span><span class='dot token'>.</span><span class='multi_params identifier id'>multi_params</span><span class='lparen token'>(</span><span class='symbol val'>:keyword</span><span class='comma token'>,</span> <span class='string val'>'no-keyword'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'crime'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>'keyword'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'kittens'</span><span class='comma token'>,</span> <span class='string val'>'socks'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;keyword=kittens&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;keyword=socks&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;no-keyword=crime&quot;</span><span class='rbrack token'>]</span>
-</pre>
-
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>Symbol</tt>)</span>
-      
-      
-        <span class='name'>name</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the base name of the query parameter
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash&lt;String, Array&lt;String&gt;&gt;</tt>)</span>
-      
-      
-        <span class='name'>options</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the options which are examined for query parameter names
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash[String]</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-<h3>Since:</h3>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'><p>
-1.0
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-78
-79
-80
-81
-82
-83
-84
-85</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/base.rb', line 78</span>
-
-<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='filter_params identifier id'>filter_params</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
-  <span class='params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='params identifier id'>params</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{name}=#{URI.escape(s)}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rparen token'>)</span>
-  <span class='lbrack token'>[</span><span class='dstring node'>&quot;wo-#{name}&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;no-#{name}&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='bitor op'>|</span>
-    <span class='params identifier id'>params</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;no-#{name}=#{URI.escape(s)}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
-  <span class='end end kw'>end</span>
-  <span class='params identifier id'>params</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -1032,20 +890,20 @@ the signed absolute URL
       <pre class="lines">
 
 
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143</pre>
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/oi/base.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/oi/base.rb', line 107</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='sign_url identifier id'>sign_url</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='SignatureException constant id'>SignatureException</span><span class='comma token'>,</span> <span class='string val'>&quot;Key not set&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='OI constant id'>OI</span><span class='dot token'>.</span><span class='key identifier id'>key</span>
@@ -1069,7 +927,7 @@ the signed absolute URL
 </div>
     
     <div id="footer">
-  Generated on Fri Sep 17 13:50:55 2010 by 
+  Generated on Fri Sep 17 16:23:27 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.8.7).
 </div>

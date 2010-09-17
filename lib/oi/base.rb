@@ -56,40 +56,13 @@ module OI
       end
     end
 
-    # Returns a list of URL query parameters computed by examining +options+ for entries related to +name+.
-    #
-    # This method encapsulates the "include/exclude" pattern for query parameters that filter model queries. For
-    # example, stories queries take the +keyword+ and +no-keyword+ parameters to include or exclude stories
-    # containing the parameter values in their titles, summaries or tags.
-    #
-    # A parameter named +#{name}+ is added when the options hash contains that key. A parameter named
-    # +no-#{name}+ is added when the options hash contains that key or the key +wo-#{name}+ (the form used by
-    # the Thor tasks, which reserve the "no-" prefix for a different purpose).
-    #
-    # Example:
-    #
-    #   >> OI::Base.multi_params(:keyword, 'no-keyword' => ['crime'], 'keyword' => ['kittens', 'socks'])
-    #   => ["keyword=kittens", "keyword=socks", "no-keyword=crime"]
-    #
-    # @param [Symbol] name the base name of the query parameter
-    # @param [Hash<String, Array<String>>] options the options which are examined for query parameter names
-    # @return [Hash[String]]
-    # @since 1.0
-    def self.filter_params(name, options)
-      params = []
-      params.concat(options[name.to_s].map {|s| "#{name}=#{URI.escape(s)}"}) if options.include?(name.to_s)
-      ["wo-#{name}", "no-#{name}"].each do |key|
-        params.concat(options[key].map {|s| "no-#{name}=#{URI.escape(s)}"}) if options.include?(key)
-      end
-      params
-    end
-
     # Calls the remote API service and returns the data encapsulated in the response.
     #
     # Uses {OI::Base#sign_url} to compute the signed absolute URL of the API resource.
     #
     # @param [String] relative_url the URL path relative to the version-identifier path component of the base
     #   service URL
+    # @param [OI::QueryParams] qp any query parameters for the API call
     # @return [Object] the returned data structure as defined by the API specification (as parsed from the JSON
     #   envelope)
     # @raise [OI::ForbiddenException] for a +403+ response
@@ -97,10 +70,11 @@ module OI
     # @raise [OI::ServiceException] for any error response that indicates a service fault of some type
     # @raise [OI::ApiException] for any error response that indicates an invalid request or other client-side error
     # @since 1.0
-    def self.call_remote(relative_url)
-      url = sign_url(relative_url)
-      OI.logger.debug("Requesting #{url}") if OI.logger
-      response = HTTParty.get(url)
+    def self.call_remote(relative_url, qp = nil)
+      query_url = qp ? qp.parameterize_url(relative_url) : relative_url
+      signed_url = sign_url(query_url)
+      OI.logger.debug("Requesting #{signed_url}") if OI.logger
+      response = HTTParty.get(signed_url)
       unless response.code < 300
         raise ForbiddenException if response.code == 403
         raise NotFoundException if response.code == 404

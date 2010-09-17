@@ -1,6 +1,7 @@
 require 'active_support/core_ext/module/attribute_accessors'
 require 'logger'
 
+require 'oi/query_params'
 require 'oi/base'
 require 'oi/category'
 require 'oi/tag'

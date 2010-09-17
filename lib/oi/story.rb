@@ -13,7 +13,7 @@ module OI
   # * title
   # * uuid ({SimpleUUID::UUID})
   #
-  # Story finders accept query parameter options as described by {OI::Story#parameterize_url}. They return data
+  # Story finders accept query parameter inputs as described by {OI::Story#parameterize_url}. They return data
   # structures as described by {OI::Story#query_result}.
   #
   # @see http://developers.outside.in/docs/stories_query_resource General API documentation for stories
@@ -22,27 +22,31 @@ module OI
     api_attr :feed_title, :feed_url, :story_url, :summary, :title, :uuid
     api_attr :tags => Tag
 
+    SIMPLE_PARAMS = {:limit => :limit, :'max-age' => :max_age}
+    NEGATABLE_PARAMS = {:keyword => :keyword, :vertical => :vertical, :format => :format,
+      :'author-type' => :'author-type'}
+
     # Returns the stories attached to +state+.
     #
     # @param [String] state the state name or postal abbreviation
-    # @param [Hash<String, Object>] options the query parameter options
+    # @param [Hash<String, Object>] inputs the query parameter inputs
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
-    def self.for_state(state, options = {})
+    def self.for_state(state, inputs = {})
       url = "/states/#{URI.escape(state)}/stories"
-      query_result(call_remote(parameterize_url(url, options)))
+      query_result(call_remote(scope_url(url, inputs), QueryParams.new(inputs, SIMPLE_PARAMS, NEGATABLE_PARAMS)))
     end
 
     # Returns the stories attached to +city+ in +state+.
     #
     # @param [String] state the state name or postal abbreviation
     # @param [String] city the city name
-    # @param [Hash<String, Object>] options the query parameter options
+    # @param [Hash<String, Object>] inputs the query parameter inputs
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
-    def self.for_city(state, city, options = {})
+    def self.for_city(state, city, inputs = {})
       url = "/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/stories"
-      query_result(call_remote(parameterize_url(url, options)))
+      query_result(call_remote(scope_url(url, inputs), QueryParams.new(inputs, SIMPLE_PARAMS, NEGATABLE_PARAMS)))
     end
 
     # Returns the stories attached to +nabe+ in +city+ in +state+.
@@ -50,34 +54,45 @@ module OI
     # @param [String] state the state name or postal abbreviation
     # @param [String] city the city name
     # @param [String] nabe the neighborhood name
-    # @param [Hash<String, Object>] options the query parameter options
+    # @param [Hash<String, Object>] inputs the query parameter inputs
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
-    def self.for_nabe(state, city, nabe, options = {})
+    def self.for_nabe(state, city, nabe, inputs = {})
       url = "/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/nabes/#{URI.escape(nabe)}/stories"
-      query_result(call_remote(parameterize_url(url, options)))
+      query_result(call_remote(scope_url(url, inputs), QueryParams.new(inputs, SIMPLE_PARAMS, NEGATABLE_PARAMS)))
     end
 
     # Returns the stories attached to +zip+.
     #
     # @param [String] zip the zip code
-    # @param [Hash<String, Object>] options the query parameter options
+    # @param [Hash<String, Object>] inputs the query parameter inputs
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
-    def self.for_zip_code(zip, options = {})
+    def self.for_zip_code(zip, inputs = {})
       url = "/zipcodes/#{URI.escape(zip)}/stories"
-      query_result(call_remote(parameterize_url(url, options)))
+      query_result(call_remote(scope_url(url, inputs), QueryParams.new(inputs, SIMPLE_PARAMS, NEGATABLE_PARAMS)))
     end
 
     # Returns the stories attached to the locations identified by +uuids+.
     #
     # @param [Array<SimpleUUID::UUID>] uuids the location uuids
-    # @param [Hash<String, Object>] options the query parameter options
+    # @param [Hash<String, Object>] inputs the query parameter inputs
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
-    def self.for_uuids(uuids, options = {})
+    def self.for_uuids(uuids, inputs = {})
       url = "/locations/#{uuids.map{|u| URI.escape(u.to_guid)}.join(",")}/stories"
-      query_result(call_remote(parameterize_url(url, options)))
+      query_result(call_remote(scope_url(url, inputs), QueryParams.new(inputs, SIMPLE_PARAMS, NEGATABLE_PARAMS)))
+    end
+
+    # Returns a version of +url+ that includes publication scoping when +inputs+ contains a non-nil
+    # +publication-id+ entry.
+    #
+    # @param [String] url the URL to potentially scope
+    # @param [Hash<String, Object>] inputs the data inputs
+    # @return [String] the URL, scoped if necessary
+    # @since 1.0
+    def self.scope_url(url, inputs = {})
+      inputs['publication-id'].nil?? url : url.gsub(/\/stories$/, "/publications/#{inputs['publication-id']}/stories")
     end
 
     # Returns the story's title and uuid.
@@ -86,44 +101,6 @@ module OI
     # @since 1.0
     def to_s
       "#{title} (#{uuid.to_guid})"
-    end
-
-    # Returns the provided URL with parameters attached to the query string as defined by the provided options.
-    #
-    # Calls {OI::Base#filter_params} to compute keyword and taxonomy parameters.
-    #
-    # @param [String] url the base query resource URL
-    # @param [Hash<String, Object>] options the query parameter options
-    # @option options [Integer] publication-id the id of a publication, if curation is to be applied
-    # @option options [Integer] limit the maximum number of stories to return
-    # @option options [String] max-age the maximum age of stories to return
-    # @option options [Array[String]] keyword return only stories matching these keywords
-    # @option options [Array[String]] no-keyword return only stories not matching these keywords
-    # @option options [Array[String]] wo-keyword return only stories not matching these keywords
-    # @option options [Array[String]] vertical return only stories matching these verticals
-    # @option options [Array[String]] no-vertical return only stories not matching these verticals
-    # @option options [Array[String]] wo-vertical return only stories not matching these verticals
-    # @option options [Array[String]] format return only stories matching these formats
-    # @option options [Array[String]] no-format return only stories not matching these formats
-    # @option options [Array[String]] wo-format return only stories not matching these formats
-    # @option options [Array[String]] author-type return only stories matching these author-types
-    # @option options [Array[String]] no-author-type return only stories not matching these author-types
-    # @option options [Array[String]] wo-author-type return only stories not matching these author-types
-    # @see OI::Base#filter_params
-    # @see http://developers.outside.in/docs/stories_query_resource Acceptable parameter values and defaults
-    # @return [String] the URL including query parameters
-    # @since 1.0
-    def self.parameterize_url(url, options)
-      url = url.gsub(/\/stories$/, "/publications/#{options['publication-id']}/stories") if
-        options.include?('publication-id')
-      qs = []
-      qs << "limit=#{options['limit']}" if options.include?('limit')
-      qs << "max_age=#{URI.escape(options['max-age'])}" if options.include?('max-age')
-      qs.concat(filter_params(:keyword, options))
-      qs.concat(filter_params(:vertical, options))
-      qs.concat(filter_params(:format, options))
-      qs.concat(filter_params(:'author-type', options))
-      qs.empty?? url : "#{url}?#{qs.join('&')}"
     end
 
     # Returns a hash encapsulating the data returned from a successful finder query.

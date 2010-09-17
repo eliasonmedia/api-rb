@@ -26,15 +26,29 @@ module OI
     api_attr :category => Category
     api_attr :uuid => SimpleUUID::UUID
 
+    SIMPLE_PARAMS = {:limit => :limit}
+    NEGATABLE_PARAMS = {:category => :category}
+
     # Returns the locations matching +name+. See the API docs for specifics regarding matching rules.
     #
     # @param [String] name the name to match
-    # @param [Hash<String, Object>] options the query parameter options
+    # @param [Hash<String, Object>] inputs the data inputs
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
-    def self.named(name, options = {})
+    def self.named(name, inputs = {})
       url = "/locations/named/#{URI.escape(name)}"
-      query_result(call_remote(parameterize_url(url, options)))
+      query_result(call_remote(scope_url(url, inputs), QueryParams.new(inputs, SIMPLE_PARAMS, NEGATABLE_PARAMS)))
+    end
+
+    # Returns a version of +url+ that includes publication scoping when +inputs+ contains a non-nil
+    # +publication-id+ entry.
+    #
+    # @param [String] url the URL to potentially scope
+    # @param [Hash<String, Object>] inputs the data inputs
+    # @return [String] the URL, scoped if necessary
+    # @since 1.0
+    def self.scope_url(url, inputs = {})
+      inputs['publication-id'].nil?? url : "#{url}/publications/#{inputs['publication-id']}"
     end
 
     # Returns the location's display name and uuid.
@@ -43,29 +57,6 @@ module OI
     # @since 1.0
     def to_s
       "#{display_name} (#{uuid.to_guid})"
-    end
-
-    # Returns the provided URL with parameters attached to the query string as defined by the provided options.
-    #
-    # Calls {OI::Base#filter_params} to compute the category parameter.
-    #
-    # @param [String] url the base query resource URL
-    # @param [Hash<String, Object>] options the query parameter options
-    # @option options [Integer] publication-id the id of a publication, if location suppression is to be applied
-    # @option options [Integer] limit the maximum number of locations to return
-    # @option options [Array[String]] category return only locations matching these categorys
-    # @option options [Array[String]] no-category return only locations not matching these categories
-    # @option options [Array[String]] wo-category return only locations not matching these categories
-    # @see OI::Base#filter_params
-    # @see http://developers.outside.in/docs/locations_query_resource Acceptable parameter values and defaults
-    # @return [String] the URL including query parameters
-    # @since 1.0
-    def self.parameterize_url(url, options)
-      url = "#{url}/publications/#{options['publication-id']}" if options.include?('publication-id')
-      qs = []
-      qs << "limit=#{options['limit']}" if options.include?('limit')
-      qs.concat(filter_params(:category, options))
-      qs.empty?? url : "#{url}?#{qs.join('&')}"
     end
 
     # Returns a hash encapsulating the data returned from a successful finder query.
