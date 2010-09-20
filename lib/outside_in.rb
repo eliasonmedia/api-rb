@@ -1,17 +1,17 @@
 require 'active_support/core_ext/module/attribute_accessors'
 require 'logger'
 
-require 'oi/query_params'
-require 'oi/base'
-require 'oi/category'
-require 'oi/tag'
-require 'oi/location'
-require 'oi/story'
-require 'oi/resource/base'
-require 'oi/resource/location_finder'
-require 'oi/resource/story_finder'
+require 'outside_in/query_params'
+require 'outside_in/base'
+require 'outside_in/category'
+require 'outside_in/tag'
+require 'outside_in/location'
+require 'outside_in/story'
+require 'outside_in/resource/base'
+require 'outside_in/resource/location_finder'
+require 'outside_in/resource/story_finder'
 
-module OI
+module OutsideIn
   # The API service host
   # @since 1.0
   HOST = 'hyperlocal-api.outside.in'
@@ -21,18 +21,19 @@ module OI
   VERSION = '1.1'
 
   mattr_accessor :logger, :instance_writer => false
-  # That which logs. Use +OI.logger+ and +OI.logger=+ to access. Defaults to +WARN+.
+  # That which logs. Use +OutsideIn.logger+ and +OutsideIn.logger=+ to access. Defaults to +WARN+.
   # @since 1.0
   @@logger = Logger.new(STDOUT)
   @@logger.level = Logger::WARN
 
   mattr_accessor :key, :instance_writer => false
-  # The developer key used to identify who is making the API request. Use +OI.key+ and +OI.key=+ to access.
+  # The developer key used to identify who is making the API request. Use +OutsideIn.key+ and +OutsideIn.key=+ to
+  # access.
   # @since 1.0
   @@key = nil
 
   mattr_accessor :secret, :instance_writer => false
-  # The shared secret used to sign the API request. Use +OI.secret+ and +OI.secret=+ to access.
+  # The shared secret used to sign the API request. Use +OutsideIn.secret+ and +OutsideIn.secret=+ to access.
   # @since 1.0
   @@secret = nil
 
@@ -66,7 +67,7 @@ module OI
     # Returns a new instance.
     #
     # @param [Hash<String, Object>] data the error hash returned in the query response body
-    # @return [OI::QueryException]
+    # @return [OutsideIn::QueryException]
     # @since 1.0
     def initialize(data)
       if data.include?('error')

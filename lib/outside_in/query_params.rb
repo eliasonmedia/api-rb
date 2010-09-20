@@ -1,4 +1,4 @@
-module OI
+module OutsideIn
   # A helper class for computing query parameters. These helpers know how to convert input values into query
   # parameters and to add them to query URLs.
   #
@@ -18,7 +18,7 @@ module OI
     #
     # @param [Hash<Symbol, Symbol>] simple the names of simple input parameters mapped to API parameter names
     # @param [Hash<Symbol, Symbol>] negatable the names of negatable input parameters mapped to API parameter names
-    # @return [OI::QueryParams]
+    # @return [OutsideIn::QueryParams]
     # @since 1.0
     def initialize(simple = {}, negatable = {})
       @simple = simple

@@ -5,26 +5,26 @@ Bundler.setup
 # XXX: only do this when the task has not been installed
 $: << 'lib'
 
-require 'oi'
+require 'outside_in'
 require 'simple_uuid'
 require 'text/reform'
 require 'yaml'
 
-module OI
+module OutsideIn
   class CLI < Thor
     namespace :oi
 
   protected
     def run(&block)
       configure
-      if ::OI.key && ::OI.secret
+      if ::OutsideIn.key && ::OutsideIn.secret
         begin
           yield
-        rescue ::OI::ForbiddenException => e
+        rescue ::OutsideIn::ForbiddenException => e
           error("Access denied - doublecheck key and secret in #{cfg_file}")
-        rescue ::OI::QueryException => e
+        rescue ::OutsideIn::QueryException => e
           error("Invalid query: #{e.message}")
-        rescue ::OI::ApiException => e
+        rescue ::OutsideIn::ApiException => e
           error("API error: #{e.message}")
         end
       end
@@ -36,9 +36,9 @@ module OI
 
     def configure
       cfg = YAML.load_file(cfg_file)
-      ::OI.key = cfg['key'] or error("You must specify your key in #{cfg_file}")
-      ::OI.secret = cfg['secret'] or error("You must specify your secret in #{cfg_file}")
-      ::OI.logger.level = Logger::DEBUG
+      ::OutsideIn.key = cfg['key'] or error("You must specify your key in #{cfg_file}")
+      ::OutsideIn.secret = cfg['secret'] or error("You must specify your secret in #{cfg_file}")
+      ::OutsideIn.logger.level = Logger::DEBUG
     end
 
     def warn(msg)
@@ -105,7 +105,7 @@ module OI
     method_options :limit => :numeric, :category => :array, :'wo-category' => :array, :'publication-id' => :numeric
     def named(name)
       run do
-        show_locations(::OI::Location.named(name, options))
+        show_locations(::OutsideIn::Location.named(name, options))
       end
     end
   end
@@ -123,9 +123,9 @@ module OI
     param_method_options
     def state(state)
       run do
-        show_stories(::OI::Story.for_state(state, options))
+        show_stories(::OutsideIn::Story.for_state(state, options))
       end
-    rescue ::OI::NotFoundException => e
+    rescue ::OutsideIn::NotFoundException => e
       error("State not found")
     end
 
@@ -133,9 +133,9 @@ module OI
     param_method_options
     def city(state, city)
       run do
-        show_stories(::OI::Story.for_city(state, city, options))
+        show_stories(::OutsideIn::Story.for_city(state, city, options))
       end
-    rescue ::OI::NotFoundException => e
+    rescue ::OutsideIn::NotFoundException => e
       error("City not found")
     end
 
@@ -143,9 +143,9 @@ module OI
     param_method_options
     def nabe(state, city, nabe)
       run do
-        show_stories(::OI::Story.for_nabe(state, city, nabe, options))
+        show_stories(::OutsideIn::Story.for_nabe(state, city, nabe, options))
       end
-    rescue ::OI::NotFoundException => e
+    rescue ::OutsideIn::NotFoundException => e
       error("Neighborhood not found")
     end
 
@@ -153,9 +153,9 @@ module OI
     param_method_options
     def zip(zip)
       run do
-        show_stories(::OI::Story.for_zip_code(zip, options))
+        show_stories(::OutsideIn::Story.for_zip_code(zip, options))
       end
-    rescue ::OI::NotFoundException => e
+    rescue ::OutsideIn::NotFoundException => e
       error("Zip code not found")
     end
 
@@ -163,9 +163,9 @@ module OI
     param_method_options
     def uuid(uuids)
       run do
-        show_stories(::OI::Story.for_uuids(uuids.split(',').map {|s| SimpleUUID::UUID.new(s)}, options))
+        show_stories(::OutsideIn::Story.for_uuids(uuids.split(',').map {|s| SimpleUUID::UUID.new(s)}, options))
       end
-    rescue ::OI::NotFoundException => e
+    rescue ::OutsideIn::NotFoundException => e
       error("UUID not found")
     end
 

@@ -1,9 +1,9 @@
-module OI
+module OutsideIn
   module Resource
     # A resource that performs queries for locations.
     #
     # @since 1.0
-    class LocationFinder < OI::Resource::Base
+    class LocationFinder < OutsideIn::Resource::Base
       QP = QueryParams.new({:limit => :limit}, {:category => :category})
 
       # Returns a version of +url+ that includes publication scoping when +inputs+ contains a non-nil

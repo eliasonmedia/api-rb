@@ -1,4 +1,4 @@
-module OI
+module OutsideIn
   # Category model class. Each location has a category that describes its places in the location hierachy, e.g
   # state, city, neighborhood, zip code, etc.
   #

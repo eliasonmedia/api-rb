@@ -1,11 +1,11 @@
 require 'simple_uuid'
 
-module OI
+module OutsideIn
   # Location model class.
   #
   # Locations have the following attributes:
   #
-  # * category ({OI::Category})
+  # * category ({OutsideIn::Category})
   # * city
   # * display_name
   # * lat ({::Float})
@@ -16,8 +16,8 @@ module OI
   # * url_name
   # * uuid ({SimpleUUID::UUID})
   #
-  # Location finders accept query parameter options as described by {OI::Location#parameterize_url}. They return data
-  # structures as described by {OI::Location#query_result}.
+  # Location finders accept query parameter options as described by {OutsideIn::Location#parameterize_url}. They
+  # return data structures as described by {OutsideIn::Location#query_result}.
   #
   # @see http://developers.outside.in/docs/locations_query_resource General API documentation for locations
   # @since 1.0
@@ -33,7 +33,7 @@ module OI
     # @return [Hash<Symbol, Object>] the query result
     # @since 1.0
     def self.named(name, inputs)
-      query_result(OI::Resource::LocationFinder.new("/locations/named/#{URI.escape(name)}").GET(inputs))
+      query_result(OutsideIn::Resource::LocationFinder.new("/locations/named/#{URI.escape(name)}").GET(inputs))
     end
 
     # Returns the location's display name and uuid.
@@ -49,7 +49,7 @@ module OI
     # The hash contains the following data:
     #
     # * +:total+ - the total number of matching locations (may be greater than the number of returned stories)
-    # * +:locations+ - the array of best matching {OI::Location} as per the specified or implied limit
+    # * +:locations+ - the array of best matching {OutsideIn::Location} as per the specified or implied limit
     #
     # @param [Hash<String, Object>] data the raw query result
     # @return [Hash<Symbol, Object>]

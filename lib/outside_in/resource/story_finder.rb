@@ -1,9 +1,9 @@
-module OI
+module OutsideIn
   module Resource
     # A resource that performs queries for stories.
     #
     # @since 1.0
-    class StoryFinder < OI::Resource::Base
+    class StoryFinder < OutsideIn::Resource::Base
       QP = QueryParams.new({:limit => :limit, :'max-age' => :max_age}, {:keyword => :keyword, :vertical => :vertical,
         :format => :format, :'author-type' => :'author-type'})
 

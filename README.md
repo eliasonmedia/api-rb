@@ -14,17 +14,17 @@ Gem dependencies are managed with [Bundler](http://gembundler.com/). Install the
 
 ## Usage
 
-    require 'oi'
+    require 'outside_in'
 
-    OI.key = 'faffledweomercraft'
-    OI.secret = 'deadbeef'
-    OI.logger.level = Logger::DEBUG # defaults to WARN
+    OutsideIn.key = 'faffledweomercraft'
+    OutsideIn.secret = 'deadbeef'
+    OutsideIn.logger.level = Logger::DEBUG # defaults to WARN
 
     # find locations by name
     # returns a hash:
     #  * total - the total number of matched stories
     #  * locations - the array of matched locations up to the specified limit (default 10)
-    data = OI::Location.named("Brooklyn")
+    data = OutsideIn::Location.named("Brooklyn")
     puts "Total matches: #{data[:total]}"
     data[:locations].each {|loc| puts "  #{loc.display_name}"}
 
@@ -45,7 +45,7 @@ Gem dependencies are managed with [Bundler](http://gembundler.com/). Install the
     # states can be identified by name or postal abbreviation.
 
     # find stories for a zip code
-    data = OI::Story.for_zip_code("11211")
+    data = OutsideIn::Story.for_zip_code("11211")
     puts "Total stories for #{data[:location].display_name}: #{data[:total]}"
     data[:stories].each {|story| puts "  #{story.title} - #{story.feed_title}"}
 
@@ -57,16 +57,16 @@ Gem dependencies are managed with [Bundler](http://gembundler.com/). Install the
     # etc.
 
     # find by state
-    data = OI::Story.for_state("New York")
+    data = OutsideIn::Story.for_state("New York")
 
     # find by city
-    data = OI::Story.for_city("NY", "New York")
+    data = OutsideIn::Story.for_city("NY", "New York")
 
     # find by neighborhood
-    data = OI::Story.for_nabe("ny", "new york", "williamsburg")
+    data = OutsideIn::Story.for_nabe("ny", "new york", "williamsburg")
 
     # find by location UUID
-    data = OI::Story.for_uuids([
+    data = OutsideIn::Story.for_uuids([
       "a02aa3e4-2aaa-41d7-b9d7-45642eb1c557", # Brooklyn, NY
       "98653b8d-fa8f-4d50-93b2-f3977a81f40c", # Brooklyn, Jacksonville, FL
     ])
@@ -85,7 +85,7 @@ Copy `config/oi.sample.yml` to `config/oi.yml` and replace the placeholder value
 
 ### Tasks
 
-You can see all available OI tasks with this command:
+You can see all available tasks with this command:
 
     $ thor list oi
 

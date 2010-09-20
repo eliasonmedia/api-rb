@@ -1,10 +1,10 @@
-module OI
+module OutsideIn
   # The base class for API models.
   #
   # Models interact with the remote service through the low level {#call_remote} method. Each model class
   # defines its own high-level finder methods that encapsulate the remote service call. For example:
   #
-  #  module OI
+  #  module OutsideIn
   #    class Thing < Base
   #      def self.by_name(name)
   #        new(call_remote("/things/named/#{URI.escape(name)}"))
@@ -59,7 +59,7 @@ module OI
     # value passed to its initializer. Otherwise, the raw value is used directly.
     #
     # @param [Hash<Symbol, Object>] attrs the data used to initialize the model's attributes
-    # @return [OI::Base]
+    # @return [OutsideIn::Base]
     # @since 1.0
     def initialize(attrs = {})
       self.class.api_attrs.each_pair do |name, clazz|

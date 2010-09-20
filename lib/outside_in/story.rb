@@ -1,6 +1,6 @@
 require 'simple_uuid'
 
-module OI
+module OutsideIn
   # Story model class.
   #
   # Stories have the following attributes:
@@ -9,12 +9,12 @@ module OI
   # * feed_url
   # * story_url
   # * summary
-  # * tags - (+Array+ of {OI::Tag})
+  # * tags - (+Array+ of {OutsideIn::Tag})
   # * title
   # * uuid ({SimpleUUID::UUID})
   #
-  # Story finders accept query parameter inputs as described by {OI::Story#parameterize_url}. They return data
-  # structures as described by {OI::Story#query_result}.
+  # Story finders accept query parameter inputs as described by {OutsideIn::Story#parameterize_url}. They return data
+  # structures as described by {OutsideIn::Story#query_result}.
   #
   # @see http://developers.outside.in/docs/stories_query_resource General API documentation for stories
   # @since 1.0
@@ -30,7 +30,7 @@ module OI
     # @since 1.0
     def self.for_state(state, inputs = {})
       url = "/states/#{URI.escape(state)}/stories"
-      query_result(OI::Resource::StoryFinder.new(url).GET(inputs))
+      query_result(OutsideIn::Resource::StoryFinder.new(url).GET(inputs))
     end
 
     # Returns the stories attached to +city+ in +state+.
@@ -42,7 +42,7 @@ module OI
     # @since 1.0
     def self.for_city(state, city, inputs = {})
       url = "/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/stories"
-      query_result(OI::Resource::StoryFinder.new(url).GET(inputs))
+      query_result(OutsideIn::Resource::StoryFinder.new(url).GET(inputs))
     end
 
     # Returns the stories attached to +nabe+ in +city+ in +state+.
@@ -55,7 +55,7 @@ module OI
     # @since 1.0
     def self.for_nabe(state, city, nabe, inputs = {})
       url = "/states/#{URI.escape(state)}/cities/#{URI.escape(city)}/nabes/#{URI.escape(nabe)}/stories"
-      query_result(OI::Resource::StoryFinder.new(url).GET(inputs))
+      query_result(OutsideIn::Resource::StoryFinder.new(url).GET(inputs))
     end
 
     # Returns the stories attached to +zip+.
@@ -66,7 +66,7 @@ module OI
     # @since 1.0
     def self.for_zip_code(zip, inputs = {})
       url = "/zipcodes/#{URI.escape(zip)}/stories"
-      query_result(OI::Resource::StoryFinder.new(url).GET(inputs))
+      query_result(OutsideIn::Resource::StoryFinder.new(url).GET(inputs))
     end
 
     # Returns the stories attached to the locations identified by +uuids+.
@@ -77,7 +77,7 @@ module OI
     # @since 1.0
     def self.for_uuids(uuids, inputs = {})
       url = "/locations/#{uuids.map{|u| URI.escape(u.to_guid)}.join(",")}/stories"
-      query_result(OI::Resource::StoryFinder.new(url).GET(inputs))
+      query_result(OutsideIn::Resource::StoryFinder.new(url).GET(inputs))
     end
 
     # Returns the story's title and uuid.
@@ -93,10 +93,11 @@ module OI
     # The hash contains the following data:
     #
     # * +:total+ - the total number of matching stories (may be greater than the number of returned stories)
-    # * +:stories+ - the array of most recent matching {OI::Story} in reverse chronological order as per the
+    # * +:stories+ - the array of most recent matching {OutsideIn::Story} in reverse chronological order as per the
     #   specified or implied limit
-    # * +:location+ - the {OI::Location} to which the finder was scoped (present for all non-UUID finders)
-    # * +:locations+ - the array of {OI::Location} to which the finder was scoped (present only for the UUID finder)
+    # * +:location+ - the {OutsideIn::Location} to which the finder was scoped (present for all non-UUID finders)
+    # * +:locations+ - the array of {OutsideIn::Location} to which the finder was scoped (present only for the UUID
+    #    finder)
     #
     # @param [Hash<String, Object>] data the raw query result
     # @return [Hash<Symbol, Object>]

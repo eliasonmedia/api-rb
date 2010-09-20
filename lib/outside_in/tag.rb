@@ -1,4 +1,4 @@
-module OI
+module OutsideIn
   # Topic tag model class. Tags are attached to stories to provide hints for content and relevance. Keyword queries
   # match against tags as well as story title and summary.
   #

@@ -2,7 +2,7 @@ require 'httparty'
 require 'json'
 require 'md5'
 
-module OI
+module OutsideIn
   module Resource
     # The base class for API resources.
     #
@@ -41,19 +41,20 @@ module OI
       #
       # @param [String] url a URL to be signed
       # @return [String] the signed URL
-      # @raise [OI::SignatureException] if the key or secret are not set
+      # @raise [OutsideIn::SignatureException] if the key or secret are not set
       # @since 1.0
       def self.sign(url)
-        raise SignatureException, "Key not set" unless OI.key
-        raise SignatureException, "Secret not set" unless OI.secret
-        sig_params = "dev_key=#{OI.key}&sig=#{MD5.new(OI.key + OI.secret + Time.now.to_i.to_s).hexdigest}"
+        raise SignatureException, "Key not set" unless OutsideIn.key
+        raise SignatureException, "Secret not set" unless OutsideIn.secret
+        sig_params = "dev_key=#{OutsideIn.key}&sig=#{MD5.new(OutsideIn.key + OutsideIn.secret +
+          Time.now.to_i.to_s).hexdigest}"
         url =~ /\?/ ? "#{url}&#{sig_params}" : "#{url}?#{sig_params}"
       end
 
       # Returns a new instance. Stores the absolutized, signed URL.
       #
       # @param [String] relative_url a URL relative to the version component of the base service URL
-      # @return [OI::Resource::Base]
+      # @return [OutsideIn::Resource::Base]
       def initialize(relative_url)
         @url = "http://#{HOST}/v#{VERSION}#{relative_url}"
       end
@@ -64,14 +65,15 @@ module OI
       # @param [Hash<String, Object>] inputs the data inputs
       # @return [Object] the returned data structure as defined by the API specification (as parsed from the JSON
       #   envelope)
-      # @raise [OI::ForbiddenException] for a +403+ response
-      # @raise [OI::NotFoundException] for a +404+ response
-      # @raise [OI::ServiceException] for any error response that indicates a service fault of some type
-      # @raise [OI::QueryException] for any error response that indicates an invalid request or other client problem
+      # @raise [OutsideIn::ForbiddenException] for a +403+ response
+      # @raise [OutsideIn::NotFoundException] for a +404+ response
+      # @raise [OutsideIn::ServiceException] for any error response that indicates a service fault of some type
+      # @raise [OutsideIn::QueryException] for any error response that indicates an invalid request or other client
+      #   problem
       # @since 1.0
       def GET(inputs)
         url = self.class.sign(self.class.parameterize(self.class.scope(@url, inputs), inputs))
-        OI.logger.debug("Requesting #{url}") if OI.logger
+        OutsideIn.logger.debug("Requesting #{url}") if OutsideIn.logger
         response = HTTParty.get(url)
         unless response.code < 300
           raise ForbiddenException if response.code == 403
