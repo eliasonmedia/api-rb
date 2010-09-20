@@ -159,7 +159,7 @@ module OI
       error("Zip code not found")
     end
 
-    desc 'uuid UUID[,UUID[...]]', 'Find stories for one or more location UUIDs'
+    desc 'uuid UUID[,UUID[...]]', 'Find stories for one to five location UUIDs'
     param_method_options
     def uuid(uuids)
       run do

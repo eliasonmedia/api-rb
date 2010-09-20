@@ -21,7 +21,7 @@ Gem dependencies are managed with [Bundler](http://gembundler.com/). Install the
     OI.logger.level = Logger::DEBUG # defaults to WARN
 
     # find locations by name
-    # returns a hash with keys:
+    # returns a hash:
     #  * total - the total number of matched stories
     #  * locations - the array of matched locations up to the specified limit (default 10)
     data = OI::Location.named("Brooklyn")
@@ -35,7 +35,7 @@ Gem dependencies are managed with [Bundler](http://gembundler.com/). Install the
     #   Brooklyn, IN
     # etc.
 
-    # all story finders return the same data structure, a hash with keys:
+    # all story finders return a hash:
     #  * total - the total number of matched stories
     #  * stories - the array of matched stories up to the specified limit (default 10)
     #  * location - the identified location -OR-
@@ -71,18 +71,31 @@ Gem dependencies are managed with [Bundler](http://gembundler.com/). Install the
       "98653b8d-fa8f-4d50-93b2-f3977a81f40c", # Brooklyn, Jacksonville, FL
     ])
 
+See [the class docs](http://rdoc.info/github/outsidein/api-rb/master/frames) for more information.
+
 ## CLI
 
 A set of Thor tasks is provided so that you can call API methods from the command line (read more about Thor at [http://github.com/wycats/thor](http://github.com/wycats/thor)).
 
 The following examples assume you have Thor installed system-wide. If it's local to your bundle, then replace `thor` with `bundle exec thor`.
 
+### Configuration
+
+Copy `config/oi.sample.yml` to `config/oi.yml` and replace the placeholder values with your key and secret.
+
+### Tasks
+
 You can see all available OI tasks with this command:
 
     $ thor list oi
 
+See which options are defined for a particular task with this command (replacing the task name as necessary):
+
+    $ thor help oi:locations:named
+
 ## Help
 
-* API docs: [http://developers.outside.in/docs](http://developers.outside.in/docs)
-* Ruby SDK docs: [http://rdoc.info/github/outsidein/api-rb/master/frames](http://rdoc.info/github/outsidein/api-rb/master/frames)
+* Source code: [http://github.com/outsidein/api-rb](http://github.com/outsidein/api-rb)
+* Class docs: [http://rdoc.info/github/outsidein/api-rb/master/frames](http://rdoc.info/github/outsidein/api-rb/master/frames)
+* General API docs: [http://developers.outside.in/docs](http://developers.outside.in/docs)
 * Post questions in the help forum: [http://developers.outside.in/forum](http://developers.outside.in/forum)
