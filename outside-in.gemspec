@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
     ".gitignore",
      "Gemfile",
      "Gemfile.lock",
+     "HISTORY",
      "README.md",
      "Rakefile",
      "VERSION",
@@ -65,6 +66,7 @@ Gem::Specification.new do |s|
      "lib/oi/resource/story_finder.rb",
      "lib/oi/story.rb",
      "lib/oi/tag.rb",
+     "outside-in.gemspec",
      "tasks/oi.thor"
   ]
   s.homepage = %q{http://github.com/outsidein/api-rb}
