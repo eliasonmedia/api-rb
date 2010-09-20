@@ -1,4 +1,4 @@
 .yardoc
 *.gem
-#config/oi.yml
-#doc
+config/oi.yml
+doc
