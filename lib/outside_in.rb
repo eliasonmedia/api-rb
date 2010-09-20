@@ -1,12 +1,12 @@
 require 'active_support/core_ext/module/attribute_accessors'
 require 'logger'
 
-require 'outside_in/query_params'
 require 'outside_in/base'
 require 'outside_in/category'
 require 'outside_in/tag'
 require 'outside_in/location'
 require 'outside_in/story'
+require 'outside_in/resource/query_params'
 require 'outside_in/resource/base'
 require 'outside_in/resource/location_finder'
 require 'outside_in/resource/story_finder'
