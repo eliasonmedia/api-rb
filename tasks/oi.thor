@@ -22,8 +22,10 @@ module OI
           yield
         rescue ::OI::ForbiddenException => e
           error("Access denied - doublecheck key and secret in #{cfg_file}")
+        rescue ::OI::QueryException => e
+          error("Invalid query: #{e.message}")
         rescue ::OI::ApiException => e
-          error("Invalid API request: #{e.message}")
+          error("API error: #{e.message}")
         end
       end
     end

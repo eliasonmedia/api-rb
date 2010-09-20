@@ -67,7 +67,7 @@ module OI
       # @raise [OI::ForbiddenException] for a +403+ response
       # @raise [OI::NotFoundException] for a +404+ response
       # @raise [OI::ServiceException] for any error response that indicates a service fault of some type
-      # @raise [OI::ApiException] for any error response that indicates an invalid request or other client-side error
+      # @raise [OI::QueryException] for any error response that indicates an invalid request or other client problem
       # @since 1.0
       def GET(inputs)
         url = self.class.sign(self.class.parameterize(self.class.scope(@url, inputs), inputs))
@@ -79,16 +79,7 @@ module OI
           if response.headers.include?('x-mashery-error-code')
             raise ServiceException, response.headers['x-mashery-error-code']
           else
-            data = JSON[response.body]
-            msg = []
-            if data.include?('error')
-              msg << data['error']
-            elsif data.include?('errors')
-              msg.concat(data['errors'])
-            else
-              msg << 'unknown error'
-            end
-            raise ApiException, msg.join('; ')
+            raise QueryException.new(JSON[response.body])
           end
         end
         JSON[response.body]

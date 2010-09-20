@@ -58,4 +58,24 @@ module OI
   # Indicates that a request could not be signed for some reason.
   # @since 1.0
   class SignatureException < ApiException; end
+
+  # Indicates that a query request returned an error response.
+  # @since 1.0
+  class QueryException < Exception
+
+    # Returns a new instance.
+    #
+    # @param [Hash<String, Object>] data the error hash returned in the query response body
+    # @return [OI::QueryException]
+    # @since 1.0
+    def initialize(data)
+      if data.include?('error')
+        super(data['error'])
+      elsif data.include?('errors')
+        super(data['errors'].join('; '))
+      else
+        super('unknown query error')
+      end
+    end
+  end
 end

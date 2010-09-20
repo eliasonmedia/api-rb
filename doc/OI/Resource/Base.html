@@ -865,15 +865,15 @@ for any error response that indicates a service fault of some type
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../ApiException.html" title="OI::ApiException (class)">OI::ApiException</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../QueryException.html" title="OI::QueryException (class)">OI::QueryException</a></span></tt>)</span>
       
       
       
       
         &mdash;
         <div class='inline'><p>
-for any error response that indicates an invalid request or other
-client-side error
+for any error response that indicates an invalid request or other client
+problem
 </p>
 </div>
       
@@ -918,16 +918,7 @@ client-side error
 83
 84
 85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95</pre>
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/oi/resource/base.rb', line 72</span>
@@ -942,16 +933,7 @@ client-side error
     <span class='if if kw'>if</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='headers identifier id'>headers</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'x-mashery-error-code'</span><span class='rparen token'>)</span>
       <span class='raise identifier id'>raise</span> <span class='ServiceException constant id'>ServiceException</span><span class='comma token'>,</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>'x-mashery-error-code'</span><span class='rbrack token'>]</span>
     <span class='else else kw'>else</span>
-      <span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='JSON constant id'>JSON</span><span class='lbrack token'>[</span><span class='response identifier id'>response</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='rbrack token'>]</span>
-      <span class='msg identifier id'>msg</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-      <span class='if if kw'>if</span> <span class='data identifier id'>data</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'error'</span><span class='rparen token'>)</span>
-        <span class='msg identifier id'>msg</span> <span class='lshft op'>&lt;&lt;</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'error'</span><span class='rbrack token'>]</span>
-      <span class='elsif elsif kw'>elsif</span> <span class='data identifier id'>data</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>'errors'</span><span class='rparen token'>)</span>
-        <span class='msg identifier id'>msg</span><span class='dot token'>.</span><span class='concat identifier id'>concat</span><span class='lparen token'>(</span><span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'errors'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-      <span class='else else kw'>else</span>
-        <span class='msg identifier id'>msg</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'unknown error'</span>
-      <span class='end end kw'>end</span>
-      <span class='raise identifier id'>raise</span> <span class='ApiException constant id'>ApiException</span><span class='comma token'>,</span> <span class='msg identifier id'>msg</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'; '</span><span class='rparen token'>)</span>
+      <span class='raise identifier id'>raise</span> <span class='QueryException constant id'>QueryException</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='JSON constant id'>JSON</span><span class='lbrack token'>[</span><span class='response identifier id'>response</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='end end kw'>end</span>
   <span class='end end kw'>end</span>
   <span class='JSON constant id'>JSON</span><span class='lbrack token'>[</span><span class='response identifier id'>response</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='rbrack token'>]</span>
@@ -967,7 +949,7 @@ client-side error
 </div>
     
     <div id="footer">
-  Generated on Fri Sep 17 17:25:43 2010 by 
+  Generated on Mon Sep 20 11:00:28 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.8.7).
 </div>
